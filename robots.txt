@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://kimtong-peng.github.io/portfolio/sitemap.xml
+Sitemap: https://ethan5767.info/sitemap.xml
