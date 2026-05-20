@@ -1,0 +1,1301 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>Kimtong Peng — Bento</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     KIMTONG PENG — BENTO SPATIAL
+     Cream tiles · warm shadows · Apple bento language
+     ============================================================ */
+  :root{
+    --bg:        #EBE6DC;
+    --bg-2:     #E2DCCD;
+    --tile:     #F5F1EB;
+    --tile-2:   #FBF8F2;
+    --ink:      #1A1814;
+    --ink-2:    #2A2620;
+    --muted:    #6E665A;
+    --line:     #D9D1C0;
+    --accent:   #C2410C;  /* burnt sienna */
+    --accent-2: #E8B074;  /* warm clay */
+    --green:    #4F6B3F;
+    --blue:     #2F4A6B;
+    --shadow:
+      0 1px 2px rgba(60,40,20,.06),
+      0 8px 18px -8px rgba(60,40,20,.16),
+      0 30px 60px -30px rgba(60,40,20,.22);
+    --shadow-hover:
+      0 1px 2px rgba(60,40,20,.08),
+      0 14px 28px -10px rgba(60,40,20,.22),
+      0 40px 80px -30px rgba(60,40,20,.28);
+    --radius: 28px;
+    --radius-sm: 18px;
+    --gap: 18px;
+    --maxw: 1280px;
+  }
+
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family: "Geist", ui-sans-serif, system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    letter-spacing: -0.01em;
+    overflow-x: hidden;
+    background-image:
+      radial-gradient(1200px 600px at 90% -10%, rgba(232,176,116,.18), transparent 60%),
+      radial-gradient(900px 700px at -10% 110%, rgba(194,65,12,.08), transparent 55%);
+  }
+
+  /* Paper grain overlay */
+  body::before{
+    content:"";
+    position: fixed; inset:0;
+    pointer-events:none;
+    z-index: 1;
+    opacity: .35;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.4  0 0 0 0 0.3  0 0 0 0 0.2  0 0 0 0.06 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+
+  .wrap{
+    position: relative;
+    z-index: 2;
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 28px 24px 80px;
+  }
+
+  /* ===== top nav ===== */
+  .nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 8px 6px 22px;
+    font-family: "Geist Mono", ui-monospace, monospace;
+    font-size: 12px;
+    letter-spacing: .02em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .nav .mark{
+    display:flex; align-items:center; gap:10px;
+    color: var(--ink);
+  }
+  .mark .dot{
+    width:9px; height:9px; border-radius:50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 3px rgba(194,65,12,.18);
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{transform:scale(1);opacity:1}
+    50%{transform:scale(1.15);opacity:.85}
+  }
+  .nav .links{display:flex; gap:22px}
+  .nav .links a{
+    color: var(--muted);
+    text-decoration:none;
+    transition: color .25s;
+  }
+  .nav .links a:hover{ color: var(--ink) }
+
+  /* ===== bento grid ===== */
+  .bento{
+    display:grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-auto-rows: minmax(120px, auto);
+    gap: var(--gap);
+    perspective: 1400px;
+  }
+
+  .tile{
+    position: relative;
+    background: var(--tile);
+    border-radius: var(--radius);
+    padding: 26px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition:
+      transform .45s cubic-bezier(.2,.7,.2,1),
+      box-shadow .45s cubic-bezier(.2,.7,.2,1),
+      filter .45s ease,
+      opacity .45s ease;
+    will-change: transform;
+    transform-style: preserve-3d;
+    border: 1px solid rgba(217,209,192,.6);
+  }
+  .tile::after{
+    /* subtle inner sheen */
+    content:"";
+    position:absolute; inset:0;
+    border-radius: inherit;
+    background: linear-gradient(160deg, rgba(255,255,255,.5), rgba(255,255,255,0) 38%);
+    pointer-events:none;
+  }
+
+  /* spatial focus: dim neighbors when one tile is hovered */
+  .bento:has(.tile:hover) .tile:not(:hover){
+    filter: brightness(.965) saturate(.92);
+    opacity: .85;
+  }
+  .tile:hover{
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
+  }
+
+  /* reveal */
+  .tile{
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  .tile.in{
+    opacity: 1;
+    transform: translateY(0);
+    transition:
+      transform .9s cubic-bezier(.2,.7,.2,1),
+      opacity .9s cubic-bezier(.2,.7,.2,1),
+      box-shadow .45s,
+      filter .45s;
+  }
+
+  /* span helpers */
+  .c-3{grid-column: span 3}
+  .c-4{grid-column: span 4}
+  .c-5{grid-column: span 5}
+  .c-6{grid-column: span 6}
+  .c-7{grid-column: span 7}
+  .c-8{grid-column: span 8}
+  .c-9{grid-column: span 9}
+  .c-12{grid-column: span 12}
+  .r-1{grid-row: span 1}
+  .r-2{grid-row: span 2}
+  .r-3{grid-row: span 3}
+  .r-4{grid-row: span 4}
+
+  /* ===== type ===== */
+  .eyebrow{
+    font-family:"Geist Mono", monospace;
+    font-size: 11px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display:flex; align-items:center; gap:8px;
+  }
+  .eyebrow .pip{
+    width:6px; height:6px; border-radius:50%;
+    background: currentColor; opacity:.5;
+  }
+  .label{
+    font-family:"Geist Mono", monospace;
+    font-size: 11px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .display{
+    font-family: "Instrument Serif", serif;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 0.94;
+  }
+  .mono{ font-family: "Geist Mono", monospace }
+  .italic{ font-style: italic }
+
+  /* ===== hero tile ===== */
+  .hero{
+    background:
+      radial-gradient(900px 500px at 110% -10%, rgba(232,176,116,.55), transparent 55%),
+      radial-gradient(700px 500px at -10% 120%, rgba(194,65,12,.18), transparent 55%),
+      linear-gradient(180deg, #FBF8F2, #F1ECE0);
+    padding: 38px 40px;
+    min-height: 360px;
+  }
+  .hero .top{
+    display:flex; justify-content:space-between; align-items:flex-start; gap:18px;
+  }
+  .hero .heading{
+    font-size: clamp(44px, 6vw, 84px);
+    margin: 18px 0 0;
+    color: var(--ink);
+  }
+  .hero .heading em{
+    font-style: italic;
+    color: var(--accent);
+  }
+  .hero .sub{
+    margin-top: 18px;
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--ink-2);
+    max-width: 56ch;
+  }
+  .hero .meta{
+    display:flex; gap:22px; flex-wrap:wrap;
+    margin-top: 22px;
+    font-family:"Geist Mono", monospace;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .hero .meta b{ color: var(--ink); font-weight:500 }
+
+  .cta-row{
+    display:flex; gap:12px; margin-top: 26px; flex-wrap:wrap;
+  }
+  .btn{
+    --bx: 0;
+    --by: 0;
+    transform: translate(var(--bx), var(--by));
+    transition: transform .25s cubic-bezier(.2,.7,.2,1), background .25s, color .25s, box-shadow .25s;
+    display:inline-flex; align-items:center; gap:10px;
+    padding: 13px 20px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration:none;
+    border: 1px solid transparent;
+    will-change: transform;
+  }
+  .btn.primary{
+    background: var(--ink);
+    color: var(--tile-2);
+    box-shadow:
+      0 1px 0 rgba(255,255,255,.08) inset,
+      0 8px 18px -6px rgba(26,24,20,.45);
+  }
+  .btn.primary:hover{ background: var(--accent) }
+  .btn.ghost{
+    background: rgba(0,0,0,.04);
+    color: var(--ink);
+    border-color: var(--line);
+  }
+  .btn .arrow{
+    display:inline-block; transition: transform .3s;
+  }
+  .btn:hover .arrow{ transform: translateX(3px) }
+
+  /* portrait tile */
+  .portrait{
+    padding: 0;
+    background: #1A1814;
+    min-height: 100%;
+  }
+  .portrait .frame{
+    position: absolute; inset:0;
+    overflow: hidden;
+    border-radius: inherit;
+  }
+  .portrait img{
+    width:100%; height:100%;
+    object-fit: cover;
+    object-position: 50% 35%;
+    transform-origin: 55% 40%;
+    animation: kenburns 22s ease-in-out infinite alternate;
+    filter: saturate(1.05) contrast(1.02);
+  }
+  @keyframes kenburns{
+    0%{ transform: scale(1.02) translate(0,0) }
+    100%{ transform: scale(1.12) translate(-1.5%, -2%) }
+  }
+  .portrait .overlay{
+    position:absolute; inset:0;
+    background:
+      linear-gradient(180deg, rgba(20,16,12,0) 40%, rgba(20,16,12,.55) 88%, rgba(20,16,12,.85) 100%);
+    pointer-events:none;
+  }
+  .portrait .badge{
+    position:absolute;
+    top:18px; left:18px;
+    padding: 8px 12px;
+    background: rgba(245,241,235,.92);
+    backdrop-filter: blur(8px);
+    border-radius: 999px;
+    font-family:"Geist Mono", monospace;
+    font-size: 11px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--ink);
+    z-index: 2;
+  }
+  .portrait .caption{
+    position:absolute;
+    bottom: 22px; left: 22px; right: 22px;
+    color: #F5F1EB;
+    z-index: 2;
+  }
+  .portrait .caption .name{
+    font-family: "Instrument Serif", serif;
+    font-style: italic;
+    font-size: 26px;
+    line-height: 1;
+  }
+  .portrait .caption .where{
+    margin-top: 6px;
+    font-family:"Geist Mono", monospace;
+    font-size: 11px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    opacity: .8;
+  }
+
+  /* generic tile parts */
+  .tile h3{
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .tile p{ margin: 0; color: var(--ink-2); line-height: 1.5; font-size: 14px }
+  .row-top{ display:flex; align-items:flex-start; justify-content:space-between; gap:14px }
+  .stack{ display:flex; flex-direction:column; gap: 14px }
+  .grow{ flex: 1 }
+
+  /* numeric stat tiles */
+  .stat-num{
+    font-family: "Instrument Serif", serif;
+    font-size: clamp(72px, 9vw, 112px);
+    line-height: .85;
+    letter-spacing: -0.04em;
+    color: var(--ink);
+  }
+  .stat-num .suffix{
+    font-family: "Geist", sans-serif;
+    font-size: 0.35em;
+    vertical-align: top;
+    color: var(--muted);
+    letter-spacing: 0;
+    margin-left: 4px;
+    font-weight: 500;
+  }
+  .stat-lab{
+    font-family:"Geist Mono", monospace;
+    font-size: 11px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* role tile */
+  .role{
+    background: linear-gradient(180deg, #FBF8F2 0%, #F2EDDF 100%);
+  }
+  .role .pill{
+    display:inline-flex; align-items:center; gap:8px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: rgba(79,107,63,.12);
+    color: var(--green);
+    font-family:"Geist Mono", monospace;
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+  .role .pill .live{
+    width:7px; height:7px; border-radius:50%;
+    background: var(--green);
+    box-shadow: 0 0 0 3px rgba(79,107,63,.22);
+    animation: pulse 1.8s ease-in-out infinite;
+  }
+  .role .title{
+    font-family: "Instrument Serif", serif;
+    font-size: clamp(28px, 3.5vw, 44px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin: 16px 0 6px;
+  }
+  .role .co{
+    font-size: 14px;
+    color: var(--ink-2);
+  }
+  .role .co b{ color: var(--ink); font-weight:600 }
+  .role .timeline{
+    display:flex; justify-content:space-between;
+    margin-top: 22px;
+    padding-top: 16px;
+    border-top: 1px dashed var(--line);
+    font-family:"Geist Mono", monospace;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .role .timeline span{ color: var(--ink) }
+
+  /* award tile (special) */
+  .award-hero{
+    background:
+      radial-gradient(500px 280px at 80% 0%, rgba(194,65,12,.16), transparent 60%),
+      linear-gradient(180deg, #F5F1EB, #EFE8D6);
+  }
+  .award-hero .trophy{
+    width: 56px; height: 56px;
+    border-radius: 16px;
+    background: linear-gradient(160deg, var(--accent), #8C2B05);
+    color: #FBF8F2;
+    display:flex; align-items:center; justify-content:center;
+    font-family:"Instrument Serif", serif;
+    font-style: italic;
+    font-size: 30px;
+    box-shadow: 0 10px 24px -8px rgba(194,65,12,.5), inset 0 1px 0 rgba(255,255,255,.3);
+  }
+  .award-hero h3{
+    font-family:"Instrument Serif", serif;
+    font-weight: 400;
+    font-size: clamp(22px, 2.4vw, 30px);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin-top: 14px;
+  }
+  .award-hero h3 em{ font-style: italic; color: var(--accent) }
+
+  /* langs */
+  .lang-row{ display:flex; flex-direction:column; gap: 14px }
+  .lang{
+    display:flex; flex-direction:column; gap: 6px;
+  }
+  .lang .top{ display:flex; justify-content:space-between; align-items:baseline }
+  .lang .name{ font-size: 15px; font-weight: 500 }
+  .lang .lvl{ font-family:"Geist Mono", monospace; font-size: 11px; color: var(--muted); letter-spacing: .08em }
+  .bar{
+    height: 6px;
+    background: rgba(0,0,0,.06);
+    border-radius: 999px;
+    overflow: hidden;
+    position: relative;
+  }
+  .bar i{
+    position: absolute; left:0; top:0; bottom:0;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    border-radius: 999px;
+    width: 0;
+    transition: width 1.4s cubic-bezier(.2,.8,.2,1);
+  }
+  .tile.in .bar i.f-100{ width: 100% }
+  .tile.in .bar i.f-85{ width: 85% }
+  .tile.in .bar i.f-35{ width: 35% }
+
+  /* skills */
+  .chips{ display:flex; flex-wrap:wrap; gap:8px; margin-top: 14px }
+  .chip{
+    padding: 7px 12px;
+    border-radius: 999px;
+    background: rgba(0,0,0,.04);
+    border: 1px solid var(--line);
+    font-size: 12px;
+    color: var(--ink-2);
+    font-family:"Geist Mono", monospace;
+    letter-spacing: .04em;
+  }
+  .chip.solid{
+    background: var(--ink);
+    color: var(--tile-2);
+    border-color: var(--ink);
+  }
+
+  /* timezone clock */
+  .clock{
+    background: linear-gradient(160deg, #1A1814, #2A2620);
+    color: #F5F1EB;
+  }
+  .clock::after{ display:none }
+  .clock .time{
+    font-family:"Instrument Serif", serif;
+    font-size: clamp(48px, 6vw, 72px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .clock .time .sep{
+    display:inline-block;
+    animation: blink 1s steps(2,end) infinite;
+  }
+  @keyframes blink{ 50%{opacity: .2} }
+  .clock .city{
+    font-family:"Geist Mono", monospace;
+    font-size: 11px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: rgba(245,241,235,.6);
+  }
+  .clock .city b{ color: #F5F1EB; font-weight: 500 }
+
+  /* map tile */
+  .map{
+    background: linear-gradient(180deg, #F5F1EB, #ECE5D2);
+    overflow: hidden;
+  }
+  .map svg{ width:100%; height: auto; display:block }
+  .map .pin{
+    position:absolute;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 5px rgba(194,65,12,.2), 0 0 0 12px rgba(194,65,12,.08);
+  }
+  .map .pin::after{
+    content:"";
+    position:absolute; inset:-22px;
+    border-radius: 50%;
+    border: 1px solid rgba(194,65,12,.4);
+    animation: ping 2.6s ease-out infinite;
+  }
+  @keyframes ping{
+    0%{ transform: scale(.4); opacity: 1 }
+    100%{ transform: scale(1.6); opacity: 0 }
+  }
+  .map .label-tag{
+    position:absolute;
+    background: var(--tile-2);
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-family:"Geist Mono", monospace;
+    font-size: 11px;
+    color: var(--ink);
+    letter-spacing: .06em;
+    box-shadow: 0 6px 14px -4px rgba(0,0,0,.15);
+    z-index: 2;
+  }
+
+  /* education tile */
+  .edu li{
+    display:grid;
+    grid-template-columns: 64px 1fr auto;
+    gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px dashed var(--line);
+    align-items: center;
+  }
+  .edu li:last-child{ border-bottom: none }
+  .edu .yr{
+    font-family:"Geist Mono", monospace;
+    font-size: 11px;
+    letter-spacing: .08em;
+    color: var(--muted);
+  }
+  .edu .school{ font-size: 14px; font-weight: 500 }
+  .edu .program{ font-size: 12px; color: var(--muted) }
+  .edu .badge{
+    font-family:"Geist Mono", monospace;
+    font-size: 10px;
+    padding: 4px 8px;
+    border-radius: 999px;
+    background: rgba(0,0,0,.05);
+    color: var(--ink-2);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+  }
+
+  /* quote tile */
+  .quote{
+    background: linear-gradient(180deg, var(--ink), #2A2620);
+    color: #F5F1EB;
+  }
+  .quote::after{ display:none }
+  .quote q{
+    font-family:"Instrument Serif", serif;
+    font-style: italic;
+    font-size: clamp(22px, 2.2vw, 30px);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    quotes: none;
+  }
+  .quote q::before{ content:"" } .quote q::after{ content:"" }
+  .quote .mark-q{
+    font-family:"Instrument Serif", serif;
+    font-style: italic;
+    font-size: 100px;
+    line-height: .5;
+    color: var(--accent-2);
+    opacity: .9;
+    display:block;
+  }
+  .quote .by{
+    font-family:"Geist Mono", monospace;
+    font-size: 11px;
+    color: rgba(245,241,235,.55);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+
+  /* award list */
+  .awards-list{
+    display:flex; flex-direction: column;
+    margin-top: 14px;
+  }
+  .awards-list .item{
+    display:grid;
+    grid-template-columns: 70px 1fr auto;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px dashed var(--line);
+    align-items:center;
+  }
+  .awards-list .item:last-child{ border-bottom: none }
+  .awards-list .yr{
+    font-family:"Geist Mono", monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: .08em;
+  }
+  .awards-list .name{ font-size: 14px; font-weight: 500; line-height: 1.3 }
+  .awards-list .tag{
+    font-family:"Geist Mono", monospace;
+    font-size: 10px;
+    padding: 4px 9px;
+    border-radius: 999px;
+    background: rgba(0,0,0,.05);
+    color: var(--ink-2);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    white-space: nowrap;
+  }
+  .awards-list .tag.gold{
+    background: rgba(194,65,12,.12);
+    color: var(--accent);
+  }
+  .awards-list .name em{
+    font-family:"Instrument Serif", serif;
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 400;
+  }
+
+  /* csak tile */
+  .csak{
+    background:
+      radial-gradient(500px 220px at 100% 0%, rgba(232,176,116,.35), transparent 60%),
+      linear-gradient(180deg, #F5F1EB, #F0E9D7);
+  }
+  .csak .roles{
+    margin-top: 16px;
+    display:flex; flex-direction:column; gap: 10px;
+  }
+  .csak .roles .r{
+    display:flex; justify-content:space-between; align-items:baseline;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed var(--line);
+  }
+  .csak .roles .r:last-child{ border-bottom: none; padding-bottom: 0 }
+  .csak .roles .lbl{ font-weight:500; font-size:14px }
+  .csak .roles .yr{
+    font-family:"Geist Mono", monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: .08em;
+  }
+
+  /* now-playing / vibes tile */
+  .vibe{
+    background:
+      radial-gradient(400px 180px at 0% 100%, rgba(194,65,12,.2), transparent 60%),
+      linear-gradient(180deg, #FBF8F2, #EFE8D6);
+  }
+  .vibe .icons{
+    display:flex; gap:10px; margin-top:14px;
+  }
+  .vibe .ic{
+    width: 44px; height: 44px;
+    border-radius: 14px;
+    background: rgba(0,0,0,.04);
+    border: 1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    font-family: "Instrument Serif", serif;
+    font-style: italic;
+    color: var(--ink);
+  }
+
+  /* focus / capybara tile */
+  .capy{
+    background: linear-gradient(160deg, #E8B074 0%, #C2410C 100%);
+    color: #FBF8F2;
+  }
+  .capy::after{
+    background: linear-gradient(160deg, rgba(255,255,255,.25), transparent 38%);
+  }
+  .capy .big{
+    font-family:"Instrument Serif", serif;
+    font-style: italic;
+    font-size: clamp(34px, 4.2vw, 56px);
+    line-height: .95;
+    letter-spacing: -0.02em;
+  }
+  .capy .small{
+    font-family:"Geist Mono", monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .14em;
+    color: rgba(251,248,242,.8);
+  }
+  .capy .ascii{
+    margin-top: 14px;
+    font-family:"Geist Mono", monospace;
+    font-size: 10px;
+    line-height: 1.05;
+    color: rgba(251,248,242,.85);
+    white-space: pre;
+  }
+
+  /* footer tile */
+  .foot{
+    grid-column: span 12;
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap;
+    gap: 16px;
+    padding: 24px 28px;
+    background: transparent;
+    box-shadow: none;
+    border: none;
+  }
+  .foot .l{
+    font-family:"Geist Mono", monospace;
+    font-size: 11px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .foot .r a{
+    color: var(--muted); text-decoration: none; margin-left: 18px;
+    font-family:"Geist Mono", monospace;
+    font-size: 11px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    transition: color .25s;
+  }
+  .foot .r a:hover{ color: var(--ink) }
+
+  /* contact tile */
+  .contact{
+    background: linear-gradient(160deg, #1A1814 0%, #3A2A1F 100%);
+    color: #F5F1EB;
+  }
+  .contact::after{
+    background: linear-gradient(160deg, rgba(255,255,255,.08), transparent 38%);
+  }
+  .contact h3{ color:#F5F1EB; font-size: 14px; font-family:"Geist Mono", monospace; letter-spacing:.14em; text-transform: uppercase; opacity:.7 }
+  .contact .big{
+    font-family:"Instrument Serif", serif;
+    font-style: italic;
+    font-size: clamp(28px, 3.4vw, 44px);
+    line-height: 1.05;
+    margin-top: 12px;
+    letter-spacing: -0.01em;
+  }
+  .contact .big a{ color: var(--accent-2); text-decoration: none; border-bottom: 1px dashed rgba(232,176,116,.5) }
+  .contact .row{
+    display:flex; justify-content:space-between; align-items:flex-end; margin-top: 18px;
+    font-family:"Geist Mono", monospace;
+    font-size: 11px;
+    color: rgba(245,241,235,.6);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+
+  /* section divider */
+  .section-head{
+    grid-column: span 12;
+    display:flex; align-items:baseline; justify-content:space-between;
+    padding: 22px 6px 4px;
+    box-shadow: none; background: transparent; border:none;
+  }
+  .section-head h2{
+    font-family:"Instrument Serif", serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: clamp(28px, 3vw, 40px);
+    margin: 0;
+    letter-spacing: -0.02em;
+  }
+  .section-head h2 .num{
+    font-family:"Geist Mono", monospace;
+    font-style: normal;
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: .14em;
+    margin-right: 12px;
+    vertical-align: middle;
+  }
+  .section-head .right{
+    font-family:"Geist Mono", monospace;
+    font-size: 11px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* responsive */
+  @media (max-width: 1100px){
+    .c-3{grid-column: span 6}
+    .c-4{grid-column: span 6}
+    .c-5{grid-column: span 6}
+    .c-6{grid-column: span 6}
+    .c-7{grid-column: span 12}
+    .c-8{grid-column: span 12}
+    .c-9{grid-column: span 12}
+  }
+  @media (max-width: 640px){
+    :root{ --gap: 14px; --radius: 22px }
+    .wrap{ padding: 18px 14px 60px }
+    .bento{ grid-template-columns: 1fr; grid-auto-rows: auto }
+    .c-3,.c-4,.c-5,.c-6,.c-7,.c-8,.c-9,.c-12{grid-column: 1 / -1}
+    .r-1,.r-2,.r-3,.r-4{ grid-row: auto }
+    .hero{ padding: 28px 24px; min-height: 0 }
+    .tile{ padding: 22px }
+    .portrait{ min-height: 380px }
+    .nav .links{ gap: 14px }
+    .nav .links a:nth-child(n+3){ display: none }
+  }
+
+  /* reduced motion */
+  @media (prefers-reduced-motion: reduce){
+    *, *::before, *::after{
+      animation: none !important;
+      transition: none !important;
+    }
+    .tile{ opacity:1; transform:none }
+    .portrait img{ animation: none }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ===================== NAV ===================== -->
+  <nav class="nav">
+    <div class="mark"><span class="dot"></span> Kimtong&nbsp;Peng</div>
+    <div class="links">
+      <a href="#work">Work</a>
+      <a href="#awards">Awards</a>
+      <a href="#about">About</a>
+      <a href="https://www.linkedin.com/in/kimtong-peng" target="_blank" rel="noopener">LinkedIn ↗</a>
+    </div>
+  </nav>
+
+  <!-- ===================== BENTO ===================== -->
+  <section class="bento" id="grid">
+
+    <!-- HERO -->
+    <article class="tile hero c-8 r-3" data-tilt>
+      <div class="top">
+        <span class="eyebrow"><span class="pip"></span> Portfolio · MMXXVI</span>
+        <span class="eyebrow"><span class="pip"></span> Seoul ⇄ Phnom Penh</span>
+      </div>
+      <h1 class="display heading">
+        Building <em>quiet</em> machines<br/>across three cultures.
+      </h1>
+      <p class="sub">
+        Cambodian engineer in Seoul. Mechanical Engineering grad from Sungkyunkwan.
+        I lead AI Research &amp; Development at NeWwave and serve as Vice President of CSAK —
+        bridging three cultures, three disciplines, one curiosity.
+      </p>
+      <div class="cta-row">
+        <a class="btn primary" id="magnet" href="https://www.linkedin.com/in/kimtong-peng" target="_blank" rel="noopener">
+          Connect on LinkedIn <span class="arrow">→</span>
+        </a>
+        <a class="btn ghost" href="#awards">See the work</a>
+      </div>
+      <div class="meta">
+        <div><b>NeWwave</b> · AI R&amp;D Lead</div>
+        <div><b>CSAK</b> · Vice President</div>
+        <div><b>SKKU '23</b> · Mechanical Eng.</div>
+      </div>
+    </article>
+
+    <!-- PORTRAIT -->
+    <article class="tile portrait c-4 r-3" data-tilt>
+      <div class="frame">
+        <img src="../assets/profile.jpg" alt="Kimtong Peng" />
+        <div class="overlay"></div>
+      </div>
+      <span class="badge">● ON FILE / 2026</span>
+      <div class="caption">
+        <div class="name">Kimtong, &amp; the capybara.</div>
+        <div class="where">N 37.566 · E 126.978 — Seoul</div>
+      </div>
+    </article>
+
+    <!-- CURRENT ROLE -->
+    <article class="tile role c-5 r-2" id="work" data-tilt>
+      <div>
+        <span class="pill"><span class="live"></span> Now · Live</span>
+        <div class="title">AI Research &amp; <em>Development</em> Lead</div>
+        <div class="co">at <b>NeWwave</b> · Remote, based in Phnom Penh</div>
+      </div>
+      <div class="timeline">
+        <div>Since <span>Jan 2024</span></div>
+        <div><span>2 yrs 5 mos</span> and counting</div>
+      </div>
+    </article>
+
+    <!-- TIME -->
+    <article class="tile clock c-3 r-1" data-tilt>
+      <div class="stat-lab" style="color: rgba(245,241,235,.55)">Local · KST</div>
+      <div class="time" id="clock">--<span class="sep">:</span>--</div>
+      <div class="city">Currently in <b>Seoul</b></div>
+    </article>
+
+    <!-- YEARS STAT -->
+    <article class="tile c-4 r-1" data-tilt>
+      <div class="row-top">
+        <span class="label">Tenure / NeWwave</span>
+        <span class="mono" style="color:var(--accent)">●</span>
+      </div>
+      <div class="stat-num">2.4<span class="suffix">yrs</span></div>
+      <div class="stat-lab" style="margin-top:8px">Leading AI &amp; R&amp;D since 2024</div>
+    </article>
+
+    <!-- LANGUAGES -->
+    <article class="tile c-4 r-2" data-tilt>
+      <div class="row-top">
+        <span class="label">Languages spoken</span>
+        <span class="mono" style="color:var(--muted)">03</span>
+      </div>
+      <div class="lang-row" style="margin-top: 18px">
+        <div class="lang">
+          <div class="top"><span class="name">Khmer</span><span class="lvl">NATIVE</span></div>
+          <div class="bar"><i class="f-100"></i></div>
+        </div>
+        <div class="lang">
+          <div class="top"><span class="name">English</span><span class="lvl">PROFESSIONAL</span></div>
+          <div class="bar"><i class="f-85"></i></div>
+        </div>
+        <div class="lang">
+          <div class="top"><span class="name">한국어 Korean</span><span class="lvl">WORKING</span></div>
+          <div class="bar"><i class="f-35"></i></div>
+        </div>
+      </div>
+    </article>
+
+    <!-- AWARDS STAT -->
+    <article class="tile c-4 r-1" data-tilt>
+      <div class="row-top">
+        <span class="label">Honors collected</span>
+        <span class="mono" style="color:var(--accent-2)">★</span>
+      </div>
+      <div class="stat-num">08</div>
+      <div class="stat-lab" style="margin-top:8px">Awards · Finals · Recognitions</div>
+    </article>
+
+    <!-- CAPY -->
+    <article class="tile capy c-4 r-1" data-tilt>
+      <div>
+        <span class="small">Co-pilot</span>
+        <div class="big">One capybara,<br/>always nearby.</div>
+      </div>
+      <pre class="ascii">    ( · ◡ · )
+   ʕ          ʔ
+    ‾‾‾‾‾‾‾‾</pre>
+    </article>
+
+    <!-- SECTION HEAD -->
+    <header class="section-head">
+      <h2><span class="num">§ 02</span>Selected honors</h2>
+      <span class="right">2019 → 2023 · 8 entries</span>
+    </header>
+
+    <!-- AWARD HERO -->
+    <article class="tile award-hero c-5 r-2" id="awards" data-tilt>
+      <div>
+        <div class="trophy">G</div>
+        <h3>Grand Prize — <em>2nd Asia Youth<br/>Future Forum</em></h3>
+        <p style="margin-top:12px">
+          Recognized for climate &amp; 4IR proposals at the regional youth summit.
+        </p>
+      </div>
+      <div class="timeline" style="display:flex; justify-content:space-between; margin-top: 22px; padding-top: 16px; border-top: 1px dashed var(--line); font-family:'Geist Mono',monospace; font-size:12px; color:var(--muted);">
+        <span>NOV 2023</span>
+        <span style="color:var(--accent)">● GRAND PRIZE</span>
+      </div>
+    </article>
+
+    <!-- AWARDS LIST -->
+    <article class="tile c-7 r-2" data-tilt>
+      <div class="row-top">
+        <span class="label">All honors · chronological</span>
+        <span class="mono" style="color:var(--muted)">07 MORE</span>
+      </div>
+      <div class="awards-list">
+        <div class="item">
+          <span class="yr">SEP 2023</span>
+          <div class="name">Semi-Finalist · <em>Climate Science Olympiad</em></div>
+          <span class="tag">Climate</span>
+        </div>
+        <div class="item">
+          <span class="yr">JAN 2022</span>
+          <div class="name">GKS-U 2022 Scholarship · <em>Republic of Korea</em></div>
+          <span class="tag gold">Scholarship</span>
+        </div>
+        <div class="item">
+          <span class="yr">SEP 2021</span>
+          <div class="name">Merit Award · <em>Mathematics Outstanding Students Cambodia</em></div>
+          <span class="tag">Mathematics</span>
+        </div>
+        <div class="item">
+          <span class="yr">MAY 2021</span>
+          <div class="name">5th · <em>Global Youth Environmental Essay Competition</em></div>
+          <span class="tag">Essay</span>
+        </div>
+        <div class="item">
+          <span class="yr">APR 2021</span>
+          <div class="name">Quarter Finalist · <em>Cambodia Public Speaking &amp; Debate</em></div>
+          <span class="tag">Debate</span>
+        </div>
+        <div class="item">
+          <span class="yr">MAR 2021</span>
+          <div class="name">3rd · <em>Model ASEAN Meeting at AUPP</em></div>
+          <span class="tag">Diplomacy</span>
+        </div>
+        <div class="item">
+          <span class="yr">MAY 2019</span>
+          <div class="name">Global Round Qualifier · <em>World Scholar's Cup</em></div>
+          <span class="tag">Scholastic</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- SECTION HEAD -->
+    <header class="section-head" id="about">
+      <h2><span class="num">§ 03</span>Where &amp; what</h2>
+      <span class="right">Education · Skills · Service</span>
+    </header>
+
+    <!-- EDUCATION -->
+    <article class="tile c-7 r-2" data-tilt>
+      <div class="row-top">
+        <span class="label">Education · in reverse</span>
+        <span class="mono" style="color:var(--muted)">03 STAGES</span>
+      </div>
+      <ul class="edu" style="list-style:none; padding:0; margin: 14px 0 0">
+        <li>
+          <span class="yr">'23</span>
+          <div>
+            <div class="school">Sungkyunkwan University</div>
+            <div class="program">BE, Mechanical Engineering · Graduated Mar 2023</div>
+          </div>
+          <span class="badge">SKKU</span>
+        </li>
+        <li>
+          <span class="yr">'22–'23</span>
+          <div>
+            <div class="school">Daegu University</div>
+            <div class="program">Korean Language Program · 한국어</div>
+          </div>
+          <span class="badge">DGU</span>
+        </li>
+        <li>
+          <span class="yr">'09–'21</span>
+          <div>
+            <div class="school">Beltei International School</div>
+            <div class="program">High School Diploma · Phnom Penh</div>
+          </div>
+          <span class="badge">BIS</span>
+        </li>
+      </ul>
+    </article>
+
+    <!-- SKILLS -->
+    <article class="tile c-5 r-1" data-tilt>
+      <div class="row-top">
+        <span class="label">Top skills</span>
+        <span class="mono" style="color:var(--muted)">02 CORE</span>
+      </div>
+      <div class="chips">
+        <span class="chip solid">Artificial Intelligence</span>
+        <span class="chip solid">Research &amp; Development</span>
+        <span class="chip">Mechanical Eng.</span>
+        <span class="chip">Systems Thinking</span>
+        <span class="chip">Cross-cultural Ldship</span>
+      </div>
+    </article>
+
+    <!-- CSAK -->
+    <article class="tile csak c-5 r-2" data-tilt>
+      <span class="eyebrow"><span class="pip"></span> Service · CSAK</span>
+      <div style="margin-top:10px">
+        <div style="font-family:'Instrument Serif',serif; font-size: clamp(24px, 2.6vw, 32px); line-height:1.05; letter-spacing:-0.02em">
+          Cambodian Student<br/>Association <em style="color:var(--accent)">in Korea</em>.
+        </div>
+        <p style="margin-top:10px">
+          Promoting Cambodia's image in Korea and supporting Cambodian students who study abroad.
+        </p>
+      </div>
+      <div class="roles">
+        <div class="r"><span class="lbl">Vice President</span><span class="yr">JUL 2024 → NOW</span></div>
+        <div class="r"><span class="lbl">Secretary</span><span class="yr">JUL 2023 – JUL 2024</span></div>
+      </div>
+    </article>
+
+    <!-- QUOTE -->
+    <article class="tile quote c-7 r-1" data-tilt>
+      <span class="mark-q">"</span>
+      <q>The most interesting problems live in the space between cultures, disciplines, and tools — that's where I like to build.</q>
+      <div class="by" style="margin-top: 16px">— K.P. · field notes</div>
+    </article>
+
+    <!-- VIBE -->
+    <article class="tile vibe c-4 r-1" data-tilt>
+      <span class="eyebrow"><span class="pip"></span> Currently into</span>
+      <div style="font-family:'Instrument Serif',serif; font-size: clamp(22px, 2.2vw, 28px); line-height:1.05; margin-top: 10px; letter-spacing:-0.02em">
+        Small models. <em style="color:var(--accent)">Big questions.</em>
+      </div>
+      <div class="icons">
+        <span class="ic">AI</span>
+        <span class="ic">R&amp;D</span>
+        <span class="ic">EV</span>
+        <span class="ic">한</span>
+      </div>
+    </article>
+
+    <!-- MAP -->
+    <article class="tile map c-4 r-2" data-tilt>
+      <span class="eyebrow"><span class="pip"></span> Where I am</span>
+      <div style="position:relative; margin-top: 8px; flex:1; display:flex; align-items:center; justify-content:center">
+        <svg viewBox="0 0 360 280" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <!-- abstract continent shapes -->
+          <g fill="none" stroke="#C2410C" stroke-opacity=".35" stroke-width=".7">
+            <path d="M40 80 Q70 50 110 60 T180 75 Q220 70 250 92 T320 110 Q330 140 310 175 T245 215 Q200 230 165 215 T100 200 Q60 185 50 150 T40 80 Z"/>
+            <path d="M70 110 Q110 100 140 120 T210 135 Q250 138 280 158" />
+            <path d="M90 150 Q130 145 170 165 T240 178" />
+            <path d="M110 190 Q150 188 190 200" />
+          </g>
+          <!-- dotted -->
+          <g fill="#C2410C" fill-opacity=".4">
+            <circle cx="60" cy="100" r="1"/><circle cx="80" cy="90" r="1"/><circle cx="100" cy="105" r="1"/>
+            <circle cx="120" cy="80" r="1"/><circle cx="140" cy="95" r="1"/><circle cx="160" cy="115" r="1"/>
+            <circle cx="180" cy="100" r="1"/><circle cx="200" cy="110" r="1"/><circle cx="220" cy="125" r="1"/>
+            <circle cx="240" cy="105" r="1"/><circle cx="260" cy="140" r="1"/><circle cx="280" cy="160" r="1"/>
+            <circle cx="150" cy="160" r="1"/><circle cx="170" cy="175" r="1"/><circle cx="190" cy="190" r="1"/>
+            <circle cx="210" cy="180" r="1"/><circle cx="230" cy="200" r="1"/>
+          </g>
+          <!-- connection line Seoul ↔ Phnom Penh -->
+          <path d="M250 95 Q190 160 165 215" fill="none" stroke="#1A1814" stroke-width="1" stroke-dasharray="3 4" opacity=".5"/>
+        </svg>
+        <div class="pin" style="left: 67%; top: 30%"></div>
+        <div class="pin" style="left: 44%; top: 73%; background: var(--ink); box-shadow: 0 0 0 5px rgba(26,24,20,.15), 0 0 0 12px rgba(26,24,20,.06)"></div>
+        <div class="label-tag" style="left: 70%; top: 22%">SEOUL · KR</div>
+        <div class="label-tag" style="left: 18%; top: 78%">PHNOM PENH · KH</div>
+      </div>
+    </article>
+
+    <!-- CONTACT -->
+    <article class="tile contact c-12 r-1" data-tilt>
+      <div style="display:flex; justify-content:space-between; align-items:flex-end; gap: 32px; flex-wrap: wrap">
+        <div style="flex:1; min-width: 260px">
+          <h3>Get in touch · § 04</h3>
+          <div class="big">
+            Always open to research collaborations, R&amp;D partnerships, and conversations that span continents — <a href="https://www.linkedin.com/in/kimtong-peng" target="_blank" rel="noopener">say hi on LinkedIn →</a>
+          </div>
+        </div>
+        <div style="text-align:right; min-width: 200px">
+          <div style="font-family:'Geist Mono',monospace; font-size:11px; color: rgba(245,241,235,.5); letter-spacing:.14em; text-transform:uppercase">Reply window</div>
+          <div style="font-family:'Instrument Serif',serif; font-style:italic; font-size: 28px; color:#F5F1EB; margin-top:6px">within 48h ·</div>
+          <div style="font-family:'Geist Mono',monospace; font-size:11px; color: rgba(245,241,235,.5); letter-spacing:.14em; text-transform:uppercase; margin-top: 4px">KST · GMT+9</div>
+        </div>
+      </div>
+    </article>
+
+    <!-- FOOTER -->
+    <footer class="foot">
+      <div class="l">© 2026 Kimtong Peng — Bento · v1.0</div>
+      <div class="r">
+        <a href="https://www.linkedin.com/in/kimtong-peng" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="#grid">Top ↑</a>
+      </div>
+    </footer>
+
+  </section>
+</div>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ===== Clock (Seoul / KST) ===== */
+  function tick(){
+    try{
+      var fmt = new Intl.DateTimeFormat('en-GB', {
+        hour:'2-digit', minute:'2-digit', hour12:false, timeZone: 'Asia/Seoul'
+      });
+      var parts = fmt.format(new Date()).split(':');
+      var el = document.getElementById('clock');
+      if(el) el.innerHTML = parts[0] + '<span class="sep">:</span>' + parts[1];
+    }catch(e){}
+  }
+  tick(); setInterval(tick, 1000 * 30);
+
+  /* ===== Reveal stagger ===== */
+  var tiles = document.querySelectorAll('.tile');
+  if(reduce){
+    tiles.forEach(function(t){ t.classList.add('in'); });
+  } else if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      var visible = entries.filter(function(e){return e.isIntersecting});
+      visible.sort(function(a,b){ return a.target.getBoundingClientRect().top - b.target.getBoundingClientRect().top });
+      visible.forEach(function(e, i){
+        var t = e.target;
+        setTimeout(function(){ t.classList.add('in'); }, i * 80);
+        io.unobserve(t);
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    tiles.forEach(function(t){ io.observe(t); });
+  } else {
+    tiles.forEach(function(t){ t.classList.add('in'); });
+  }
+
+  /* ===== Tilt on mousemove ===== */
+  if(!reduce){
+    var maxDeg = 5;
+    document.querySelectorAll('[data-tilt]').forEach(function(el){
+      var rect;
+      var raf = null;
+      function update(e){
+        if(!rect) rect = el.getBoundingClientRect();
+        var x = (e.clientX - rect.left) / rect.width;
+        var y = (e.clientY - rect.top) / rect.height;
+        var rx = (0.5 - y) * maxDeg * 2;
+        var ry = (x - 0.5) * maxDeg * 2;
+        el.style.transform = 'translateY(-4px) perspective(900px) rotateX(' + rx.toFixed(2) + 'deg) rotateY(' + ry.toFixed(2) + 'deg)';
+      }
+      el.addEventListener('mouseenter', function(){ rect = el.getBoundingClientRect(); });
+      el.addEventListener('mousemove', function(e){
+        if(raf) cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(function(){ update(e); });
+      });
+      el.addEventListener('mouseleave', function(){
+        rect = null;
+        el.style.transform = '';
+      });
+    });
+  }
+
+  /* ===== Magnetic CTA ===== */
+  if(!reduce){
+    var magnet = document.getElementById('magnet');
+    if(magnet){
+      var radius = 90;
+      var strength = 0.35;
+      window.addEventListener('mousemove', function(e){
+        var r = magnet.getBoundingClientRect();
+        var cx = r.left + r.width/2;
+        var cy = r.top + r.height/2;
+        var dx = e.clientX - cx;
+        var dy = e.clientY - cy;
+        var dist = Math.sqrt(dx*dx + dy*dy);
+        if(dist < radius){
+          magnet.style.setProperty('--bx', (dx * strength).toFixed(1) + 'px');
+          magnet.style.setProperty('--by', (dy * strength).toFixed(1) + 'px');
+        } else {
+          magnet.style.setProperty('--bx', '0px');
+          magnet.style.setProperty('--by', '0px');
+        }
+      });
+    }
+  }
+})();
+</script>
+</body>
+</html>

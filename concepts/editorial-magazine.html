@@ -1,0 +1,911 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Kimtong Peng — Issue 01, Profile</title>
+<meta name="description" content="A profile of Kimtong Peng — Cambodian engineer in Seoul, AI R&D Lead at NeWwave, and Vice President of the Cambodian Student Association in Korea." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,500&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --paper:#F4EFE6;
+    --paper-warm:#ECE4D4;
+    --ink:#16130E;
+    --ink-soft:#3A332A;
+    --ink-mute:#6B6357;
+    --rule:#1A1612;
+    --oxblood:#7A1F2B;
+    --oxblood-deep:#5C1620;
+    --measure:62ch;
+  }
+
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--paper);color:var(--ink)}
+  html{ -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; }
+  body{
+    font-family:"Fraunces", "Times New Roman", Georgia, serif;
+    font-feature-settings:"ss01","ss02","onum","liga","dlig";
+    font-size:16px;
+    line-height:1.6;
+    color:var(--ink);
+    background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(122,31,43,0.05), transparent 60%),
+      radial-gradient(900px 500px at -10% 30%, rgba(22,19,14,0.04), transparent 60%),
+      var(--paper);
+    overflow-x:hidden;
+  }
+
+  /* subtle paper grain via SVG noise */
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    pointer-events:none;
+    z-index:1;
+    opacity:.35;
+    mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' seed='7'/><feColorMatrix values='0 0 0 0 0.55  0 0 0 0 0.5  0 0 0 0 0.42  0 0 0 0.08 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    background-size:240px 240px;
+  }
+
+  ::selection{ background:var(--oxblood); color:var(--paper); }
+
+  a{ color:var(--ink); text-decoration:none; border-bottom:1px solid rgba(22,19,14,0.25); transition:border-color .25s ease, color .25s ease; }
+  a:hover{ color:var(--oxblood); border-color:var(--oxblood); }
+
+  /* ── RUNNING HEADER ─────────────────────────────────────────────────────── */
+  .running{
+    position:relative; z-index:5;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 28px;
+    border-bottom:1px solid var(--rule);
+    font-family:"Inter Tight", sans-serif;
+    font-size:11px; font-weight:500;
+    letter-spacing:.16em; text-transform:uppercase;
+    color:var(--ink);
+    background:var(--paper);
+  }
+  .running .mast{ display:flex; gap:14px; align-items:baseline; }
+  .running .mast b{ font-family:"Fraunces", serif; font-weight:700; letter-spacing:0; text-transform:none; font-size:15px; font-style:italic; }
+  .running .center{ font-style:italic; font-family:"Fraunces", serif; text-transform:none; letter-spacing:.02em; color:var(--ink-soft); font-size:12px; }
+  .running .right{ color:var(--ink-soft); }
+  @media (max-width:680px){
+    .running{ padding:14px 18px; font-size:10px; }
+    .running .center{ display:none; }
+  }
+
+  /* ── HERO / FEATURE OPENER ─────────────────────────────────────────────── */
+  .feature{
+    position:relative; z-index:2;
+    padding:64px 28px 40px;
+    max-width:1440px; margin:0 auto;
+  }
+  .feature .kicker{
+    font-family:"Inter Tight", sans-serif;
+    font-size:11px; font-weight:600;
+    letter-spacing:.28em; text-transform:uppercase;
+    color:var(--oxblood);
+    display:inline-flex; align-items:center; gap:14px;
+    margin-bottom:36px;
+  }
+  .kicker .dot{ width:6px; height:6px; background:var(--oxblood); border-radius:50%; display:inline-block; }
+  .kicker .line{ display:inline-block; width:48px; height:1px; background:var(--oxblood); }
+
+  .feature h1{
+    font-family:"Fraunces", serif;
+    font-weight:400;
+    font-variation-settings:"opsz" 144;
+    font-size:clamp(54px, 11.5vw, 168px);
+    line-height:.92;
+    letter-spacing:-0.035em;
+    margin:0 0 28px;
+    color:var(--ink);
+  }
+  .feature h1 em{ font-style:italic; font-weight:300; color:var(--oxblood); }
+  .feature h1 .ampers{ font-style:italic; font-weight:300; color:var(--ink-soft); padding:0 .04em; }
+
+  .feature .standfirst{
+    font-family:"Fraunces", serif;
+    font-style:italic;
+    font-weight:300;
+    font-size:clamp(18px, 2.1vw, 24px);
+    line-height:1.45;
+    color:var(--ink-soft);
+    max-width:46ch;
+    margin:0 0 56px;
+  }
+
+  /* the hero grid: portrait + meta column */
+  .hero-grid{
+    display:grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, .85fr);
+    gap:48px;
+    align-items:end;
+  }
+  @media (max-width:900px){
+    .hero-grid{ grid-template-columns:1fr; gap:32px; }
+  }
+
+  .portrait-frame{
+    position:relative;
+    overflow:hidden;
+    background:var(--paper-warm);
+    aspect-ratio: 4 / 5.4;
+    box-shadow: 0 1px 0 rgba(22,19,14,0.08), 0 30px 60px -30px rgba(22,19,14,0.35);
+  }
+  .portrait-frame img{
+    width:100%; height:100%;
+    object-fit:cover;
+    object-position: 50% 32%;
+    display:block;
+    transform: scale(1.06);
+    filter: contrast(1.04) saturate(.92) sepia(.06);
+    transition: transform 1.6s cubic-bezier(.2,.7,.2,1), opacity 1.2s ease;
+    opacity:0;
+  }
+  .portrait-frame.in img{ transform:scale(1); opacity:1; }
+
+  .portrait-caption{
+    position:absolute; left:0; right:0; bottom:0;
+    padding:14px 18px;
+    background: linear-gradient(to top, rgba(22,19,14,.55), rgba(22,19,14,0));
+    color:var(--paper);
+    font-family:"Inter Tight", sans-serif;
+    font-size:10.5px; letter-spacing:.22em; text-transform:uppercase;
+    display:flex; justify-content:space-between; gap:12px;
+  }
+  .portrait-caption .sep{ opacity:.55; }
+
+  /* meta dossier on the right */
+  .dossier{
+    border-top:1px solid var(--rule);
+    padding-top:22px;
+  }
+  .dossier .row{
+    display:grid;
+    grid-template-columns: 110px 1fr;
+    gap:18px;
+    padding:14px 0;
+    border-bottom:1px dotted rgba(22,19,14,.25);
+  }
+  .dossier .row:last-child{ border-bottom:none; }
+  .dossier .label{
+    font-family:"Inter Tight", sans-serif;
+    font-size:10.5px; font-weight:600;
+    letter-spacing:.22em; text-transform:uppercase;
+    color:var(--ink-mute);
+    padding-top:3px;
+  }
+  .dossier .val{
+    font-family:"Fraunces", serif;
+    font-size:17px; line-height:1.4;
+    color:var(--ink);
+  }
+  .dossier .val .em{ font-style:italic; color:var(--ink-soft); }
+
+  /* page-number / folio strip */
+  .folio{
+    margin-top:36px;
+    display:flex; align-items:center; justify-content:space-between;
+    border-top:1px solid var(--rule);
+    padding-top:14px;
+    font-family:"Inter Tight", sans-serif;
+    font-size:11px; letter-spacing:.22em; text-transform:uppercase;
+    color:var(--ink-soft);
+  }
+  .folio .num{ font-family:"Fraunces", serif; font-style:italic; font-weight:300; font-size:14px; letter-spacing:0; text-transform:none; color:var(--ink); }
+
+  /* ── ARTICLE ─────────────────────────────────────────────────────────────── */
+  .article{
+    position:relative; z-index:2;
+    max-width:1440px;
+    margin:0 auto;
+    padding: 80px 28px 40px;
+  }
+
+  /* asymmetric columns */
+  .article-grid{
+    display:grid;
+    grid-template-columns: 1fr minmax(0, 62ch) minmax(0,1fr);
+    column-gap:48px;
+  }
+  @media (max-width:1100px){
+    .article-grid{ grid-template-columns: 1fr; }
+  }
+
+  .col-left{ grid-column:1; }
+  .col-main{ grid-column:2; }
+  .col-right{ grid-column:3; }
+  @media (max-width:1100px){
+    .col-left,.col-main,.col-right{ grid-column:1; }
+  }
+
+  .section-label{
+    font-family:"Inter Tight", sans-serif;
+    font-size:11px; font-weight:600;
+    letter-spacing:.28em; text-transform:uppercase;
+    color:var(--ink);
+    display:inline-block;
+    padding-bottom:6px;
+    position:relative;
+    margin-bottom:18px;
+  }
+  .section-label::after{
+    content:""; position:absolute; left:0; bottom:0;
+    width:100%; height:1.5px; background:var(--oxblood);
+    transform:scaleX(0); transform-origin:left;
+    transition:transform .9s cubic-bezier(.2,.7,.2,1);
+  }
+  .section-label.in::after{ transform:scaleX(1); }
+
+  .deck{
+    font-family:"Fraunces", serif;
+    font-weight:400;
+    font-size:clamp(28px, 3.6vw, 44px);
+    line-height:1.08;
+    letter-spacing:-0.02em;
+    margin:0 0 28px;
+    color:var(--ink);
+  }
+  .deck em{ font-style:italic; font-weight:300; color:var(--oxblood); }
+
+  p.lead{
+    font-size:17px;
+    line-height:1.65;
+    color:var(--ink-soft);
+    margin:0 0 22px;
+  }
+  p.lead::first-letter{
+    font-family:"Fraunces", serif;
+    font-weight:600;
+    font-variation-settings:"opsz" 144;
+    font-size:5.6em;
+    line-height:.84;
+    float:left;
+    padding: 8px 12px 0 0;
+    color:var(--oxblood);
+    font-style:normal;
+  }
+
+  p.body{
+    font-size:15.5px;
+    line-height:1.72;
+    color:var(--ink-soft);
+    margin:0 0 18px;
+    max-width:var(--measure);
+  }
+  p.body strong{ color:var(--ink); font-weight:600; }
+
+  .micro-h{
+    font-family:"Inter Tight", sans-serif;
+    font-size:10.5px; font-weight:600;
+    letter-spacing:.3em; text-transform:uppercase;
+    color:var(--ink-mute);
+    margin: 28px 0 10px;
+  }
+
+  /* PULL QUOTE */
+  .pull{
+    margin:48px 0 48px;
+    padding: 28px 0 28px;
+    border-top:1px solid var(--rule);
+    border-bottom:1px solid var(--rule);
+    position:relative;
+  }
+  .pull blockquote{
+    margin:0;
+    font-family:"Fraunces", serif;
+    font-weight:300;
+    font-style:italic;
+    font-size:clamp(26px, 3.4vw, 40px);
+    line-height:1.12;
+    letter-spacing:-0.015em;
+    color:var(--ink);
+    filter: blur(8px);
+    opacity:0;
+    transition: filter 1.4s ease, opacity 1.2s ease;
+  }
+  .pull.in blockquote{ filter: blur(0); opacity:1; }
+  .pull blockquote::before{
+    content:"“";
+    font-family:"Fraunces", serif;
+    font-weight:400;
+    color:var(--oxblood);
+    font-size:1.4em;
+    line-height:0;
+    position:relative; top:.22em;
+    margin-right:.04em;
+  }
+  .pull cite{
+    display:block;
+    margin-top:18px;
+    font-style:normal;
+    font-family:"Inter Tight", sans-serif;
+    font-size:10.5px; font-weight:600;
+    letter-spacing:.28em; text-transform:uppercase;
+    color:var(--ink-mute);
+  }
+
+  /* side notes */
+  .sidenote{
+    font-family:"Fraunces", serif;
+    font-style:italic;
+    font-size:14px;
+    line-height:1.5;
+    color:var(--ink-mute);
+    border-left:1px solid var(--oxblood);
+    padding: 4px 0 4px 16px;
+    margin-top: 18px;
+    max-width: 30ch;
+  }
+
+  /* ── DOSSIER / CV SECTIONS ───────────────────────────────────────────────── */
+  .spread{
+    max-width:1440px; margin:0 auto;
+    padding: 60px 28px;
+    position:relative; z-index:2;
+  }
+  .spread + .spread{ padding-top:20px; }
+
+  .spread h2{
+    font-family:"Fraunces", serif;
+    font-weight:400;
+    font-size:clamp(38px, 6.4vw, 88px);
+    line-height:.95;
+    letter-spacing:-0.03em;
+    margin:0 0 12px;
+  }
+  .spread h2 em{ font-style:italic; font-weight:300; color:var(--oxblood); }
+
+  .spread .sub{
+    font-family:"Fraunces", serif; font-style:italic;
+    color:var(--ink-mute);
+    font-size:17px;
+    max-width:48ch;
+    margin: 0 0 36px;
+  }
+
+  /* two-col editorial spread for honors */
+  .entries{
+    display:grid;
+    grid-template-columns: 220px 1fr;
+    column-gap:40px;
+    row-gap:0;
+  }
+  @media (max-width:780px){ .entries{ grid-template-columns: 1fr; } }
+
+  .entries .e-side{
+    border-top:1px solid var(--rule);
+  }
+  .entries .e-side .e-label{
+    font-family:"Inter Tight", sans-serif;
+    font-size:10.5px; font-weight:600;
+    letter-spacing:.28em; text-transform:uppercase;
+    color:var(--ink-mute);
+    padding:14px 0 6px;
+  }
+  .entries .e-side .e-count{
+    font-family:"Fraunces", serif; font-style:italic; font-weight:300;
+    font-size:64px; line-height:1; color:var(--ink);
+    margin-top:8px;
+  }
+  .entries .e-list{ border-top:1px solid var(--rule); }
+  .entry{
+    display:grid;
+    grid-template-columns: 110px 1fr auto;
+    gap: 22px;
+    padding: 20px 0;
+    border-bottom:1px solid rgba(22,19,14,.18);
+    align-items:baseline;
+  }
+  @media (max-width:560px){
+    .entry{ grid-template-columns: 1fr; gap:6px; }
+    .entry .e-date{ order:3; }
+  }
+  .entry .e-date{
+    font-family:"Inter Tight", sans-serif;
+    font-size:10.5px; font-weight:600;
+    letter-spacing:.22em; text-transform:uppercase;
+    color:var(--ink-mute);
+    padding-top:4px;
+  }
+  .entry .e-title{
+    font-family:"Fraunces", serif;
+    font-size:19px;
+    line-height:1.32;
+    color:var(--ink);
+  }
+  .entry .e-title b{ font-weight:600; }
+  .entry .e-title em{ font-style:italic; color:var(--ink-soft); font-weight:300; }
+  .entry .e-meta{
+    font-family:"Inter Tight", sans-serif;
+    font-size:11px; font-weight:500;
+    letter-spacing:.16em; text-transform:uppercase;
+    color:var(--ink-mute);
+    text-align:right;
+    white-space:nowrap;
+  }
+  .entry .e-meta.award{ color:var(--oxblood); }
+
+  /* skills + languages strip */
+  .strip{
+    display:grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap:24px;
+    border-top:1px solid var(--rule);
+    padding-top: 28px;
+    margin-top:16px;
+  }
+  @media (max-width:900px){ .strip{ grid-template-columns: repeat(2, 1fr); } }
+
+  .strip .cell{
+    grid-column: span 3;
+  }
+  @media (max-width:900px){ .strip .cell{ grid-column: span 1; } }
+
+  .strip .cell h4{
+    font-family:"Inter Tight", sans-serif;
+    font-size:10.5px; font-weight:600;
+    letter-spacing:.28em; text-transform:uppercase;
+    color:var(--ink-mute);
+    margin:0 0 10px;
+  }
+  .strip .cell p{
+    margin:0;
+    font-family:"Fraunces", serif;
+    font-size:18px;
+    line-height:1.35;
+    color:var(--ink);
+  }
+  .strip .cell p span{
+    display:block;
+    font-style:italic; font-weight:300; color:var(--ink-mute); font-size:13.5px;
+    margin-top:2px;
+  }
+
+  /* ── COLOPHON / FOOTER ───────────────────────────────────────────────────── */
+  .colophon{
+    margin-top:60px;
+    border-top:1px solid var(--rule);
+    padding: 40px 28px 60px;
+    max-width:1440px;
+    margin-left:auto; margin-right:auto;
+    position:relative; z-index:2;
+  }
+  .colophon .crow{
+    display:grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap:32px;
+  }
+  @media (max-width:780px){ .colophon .crow{ grid-template-columns: 1fr; } }
+
+  .colophon .mark{
+    font-family:"Fraunces", serif;
+    font-weight:400;
+    font-size:clamp(40px, 6vw, 76px);
+    line-height:.95;
+    letter-spacing:-0.03em;
+  }
+  .colophon .mark em{ font-style:italic; color:var(--oxblood); font-weight:300; }
+
+  .colophon .meta{
+    font-family:"Inter Tight", sans-serif;
+    font-size:11px; font-weight:500;
+    letter-spacing:.22em; text-transform:uppercase;
+    color:var(--ink-mute);
+    line-height:1.9;
+  }
+  .colophon .meta a{ border-color:rgba(22,19,14,.4); }
+
+  .colophon .endmark{
+    font-family:"Fraunces", serif; font-style:italic;
+    color:var(--ink-mute);
+    font-size:14px;
+    margin-top:32px;
+    text-align:right;
+    letter-spacing:0;
+  }
+  .colophon .endmark::before{
+    content:"■";
+    color:var(--oxblood);
+    margin-right:8px;
+    font-style:normal;
+  }
+
+  /* ── REVEAL ANIMATIONS (line-by-line) ───────────────────────────────────── */
+  .reveal .ln{
+    display:inline-block;
+    overflow:hidden;
+    vertical-align:bottom;
+  }
+  .reveal .ln > span{
+    display:inline-block;
+    transform: translateY(105%);
+    opacity:0;
+    transition: transform 1.05s cubic-bezier(.2,.7,.2,1), opacity .9s ease;
+  }
+  .reveal.in .ln > span{
+    transform: translateY(0);
+    opacity:1;
+  }
+  .reveal.in .ln:nth-child(2) > span{ transition-delay: .08s; }
+  .reveal.in .ln:nth-child(3) > span{ transition-delay: .16s; }
+  .reveal.in .ln:nth-child(4) > span{ transition-delay: .24s; }
+  .reveal.in .ln:nth-child(5) > span{ transition-delay: .32s; }
+
+  .fade{
+    opacity:0;
+    transform: translateY(14px);
+    transition: opacity 1s ease, transform 1s cubic-bezier(.2,.7,.2,1);
+  }
+  .fade.in{ opacity:1; transform:none; }
+
+  /* respect motion preferences */
+  @media (prefers-reduced-motion: reduce){
+    .reveal .ln > span, .fade, .portrait-frame img, .pull blockquote, .section-label::after{
+      transition: none !important;
+      transform:none !important; opacity:1 !important; filter:none !important;
+    }
+    .section-label::after{ transform:scaleX(1) !important; }
+  }
+
+  /* prevent FOUC of split spans */
+  .reveal:not(.split-ready){ visibility:hidden; }
+  .reveal.split-ready{ visibility:visible; }
+
+</style>
+</head>
+<body>
+
+<!-- ░░ RUNNING HEADER ░░ -->
+<header class="running" role="banner">
+  <div class="mast">
+    <b>The Profile</b>
+    <span>Issue 01</span>
+  </div>
+  <div class="center">A monthly study of people shaping things between places.</div>
+  <div class="right">May 2026 · Seoul</div>
+</header>
+
+<!-- ░░ FEATURE OPENER ░░ -->
+<section class="feature">
+
+  <span class="kicker"><span class="dot"></span> Volume I · Profile №&nbsp;001 <span class="line"></span> A working portrait</span>
+
+  <h1 class="reveal" data-split>
+    Kimtong Peng, <em>engineer</em><br>
+    between <em>three</em> <span class="ampers">&amp;</span><br>
+    cultures.
+  </h1>
+
+  <p class="standfirst fade">
+    A Cambodian mechanical engineer in Seoul building artificial intelligence for a global studio — and quietly running a student association on the side. A portrait, in his own quiet register.
+  </p>
+
+  <div class="hero-grid">
+    <figure class="portrait-frame" aria-label="Editorial portrait of Kimtong Peng">
+      <img src="../assets/profile.jpg" alt="Kimtong Peng, in dark sunglasses and a black t-shirt, holding a small brown capybara plush." />
+      <figcaption class="portrait-caption">
+        <span>Photographed in studio</span><span class="sep">·</span><span>The Capybara, on loan</span>
+      </figcaption>
+    </figure>
+
+    <aside class="dossier fade">
+      <div class="row">
+        <div class="label">Subject</div>
+        <div class="val">Kimtong Peng <span class="em">(b. Phnom Penh)</span></div>
+      </div>
+      <div class="row">
+        <div class="label">Based</div>
+        <div class="val">Seoul, South Korea</div>
+      </div>
+      <div class="row">
+        <div class="label">Title</div>
+        <div class="val">AI Research &amp; Development Lead</div>
+      </div>
+      <div class="row">
+        <div class="label">House</div>
+        <div class="val"><a href="https://www.linkedin.com/company/newwaveglobal/" target="_blank" rel="noopener">NeWwave</a></div>
+      </div>
+      <div class="row">
+        <div class="label">Tongues</div>
+        <div class="val">Khmer · English · Korean</div>
+      </div>
+      <div class="row">
+        <div class="label">Letters</div>
+        <div class="val">B.Eng., Mechanical Engineering<br><span class="em">Sungkyunkwan University, '23</span></div>
+      </div>
+
+      <div class="folio">
+        <span>The Profile</span>
+        <span class="num">p. 001</span>
+        <span>Issue 01</span>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- ░░ ARTICLE ░░ -->
+<article class="article">
+  <div class="article-grid">
+
+    <div class="col-left">
+      <!-- intentionally light: editorial hanging margin -->
+      <div class="sidenote fade">
+        On a working day, Kimtong answers in three keyboards: Khmer at home, English at the desk, Korean at the door.
+      </div>
+    </div>
+
+    <div class="col-main">
+      <span class="section-label">The Lead</span>
+      <h2 class="deck reveal" data-split>
+        He builds <em>models</em> in one language,<br>writes scholarships in another,<br>and answers his mother in a third.
+      </h2>
+
+      <p class="lead fade">
+        Kimtong Peng works at the seam where mechanical engineering ends and machine intelligence begins. Educated at Sungkyunkwan University in Seoul, raised in Phnom Penh, and now leading research and development for NeWwave from a remote desk in Cambodia, he is the rare profile that refuses a single column — engineer, organizer, student of three cultures, and, in his off-hours, the patient Vice President of a small but stubborn association of Cambodian students living in Korea.
+      </p>
+
+      <p class="body fade">
+        He arrived in Korea in 2022 on a <strong>GKS-U scholarship</strong> — a fully funded berth from the Republic of Korea's National Institute for International Education — and spent his first year almost entirely inside Daegu University's Korean language program. By March 2023 he had a Mechanical Engineering degree from Sungkyunkwan; by January 2024 he was leading AI research at NeWwave.
+      </p>
+    </div>
+
+    <div class="col-right">
+      <!-- right column kept airy; small marginalia -->
+    </div>
+  </div>
+
+  <!-- pull quote spans the central measure -->
+  <div class="article-grid">
+    <div class="col-left"></div>
+    <div class="col-main">
+      <div class="pull">
+        <blockquote>
+          To bridge anything — disciplines, languages, countries — you first have to be willing to stand in the middle of it and be misread for a while.
+        </blockquote>
+        <cite>— A working motto, in three languages</cite>
+      </div>
+    </div>
+    <div class="col-right"></div>
+  </div>
+
+  <div class="article-grid">
+    <div class="col-left"></div>
+    <div class="col-main">
+
+      <div class="micro-h">On the work</div>
+      <p class="body fade">
+        At NeWwave, his title — <em>AI Research &amp; Development Lead</em> — sits where his two top-listed skills meet on the page: <strong>Artificial Intelligence</strong> and <strong>Research and Development</strong>. Two years and five months in, and counting.
+      </p>
+
+      <div class="micro-h">On the side</div>
+      <p class="body fade">
+        Since July 2023 he has served the <strong>Cambodian Student Association in Korea</strong> — first as Secretary in social services, then, from July 2024, as Vice President on the education portfolio. CSAK is a small non-governmental volunteer body: it promotes Cambodia's image in Korea and looks after Cambodian students who, like Kimtong once did, arrive in a country whose alphabet they cannot yet read.
+      </p>
+
+      <div class="micro-h">On the prize</div>
+      <p class="body fade">
+        In November 2023, between the end of his degree and the beginning of his AI work, he took the <strong>Grand Prize</strong> at the 2nd Asia Youth Future Forum — a joint convening of the Asia Exchange Association and Pyeongtech International Exchange Foundation — for proposals on climate strategy and industrial transition. He was, that same autumn, a semi-finalist at the Climate Science Olympiad. He had been a semi-finalist there once before, in 2021, when he was still a high-school student in Phnom Penh.
+      </p>
+    </div>
+    <div class="col-right">
+      <div class="sidenote fade">
+        Beltei International School, Phnom Penh, 2009–2021. Twelve years in one set of corridors.
+      </div>
+    </div>
+  </div>
+</article>
+
+<!-- ░░ DOSSIER: WORK & STUDY ░░ -->
+<section class="spread">
+  <span class="section-label">II — The Record</span>
+  <h2><em>Work,</em> study,<br>and the rooms in between.</h2>
+  <p class="sub">A working chronology, recent at top, in the editorial habit.</p>
+
+  <div class="entries">
+    <div class="e-side">
+      <div class="e-label">Section</div>
+      <div class="e-label" style="padding-top:0">Currently</div>
+      <div class="e-count">01</div>
+      <div class="e-label" style="padding-top:24px;color:var(--ink-soft)">Position held<br>Jan 2024 — Present</div>
+    </div>
+    <div class="e-list">
+      <div class="entry">
+        <div class="e-date">2024 — Now</div>
+        <div class="e-title"><b>AI Research &amp; Development Lead</b><br><em>NeWwave · Remote, from Phnom Penh</em></div>
+        <div class="e-meta">2 yrs 5 mos</div>
+      </div>
+      <div class="entry">
+        <div class="e-date">2022 — 2023</div>
+        <div class="e-title"><b>B.Eng., Mechanical Engineering</b><br><em>Sungkyunkwan University, Seoul</em></div>
+        <div class="e-meta">Graduated Mar '23</div>
+      </div>
+      <div class="entry">
+        <div class="e-date">2022 — 2023</div>
+        <div class="e-title"><b>Korean Language &amp; Literature</b><br><em>Daegu University · Language program</em></div>
+        <div class="e-meta">One year</div>
+      </div>
+      <div class="entry">
+        <div class="e-date">2009 — 2021</div>
+        <div class="e-title"><b>High School Diploma, General Studies</b><br><em>Beltei International School, Phnom Penh</em></div>
+        <div class="e-meta">Twelve years</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- skills strip -->
+  <div class="strip">
+    <div class="cell">
+      <h4>Top Skills</h4>
+      <p>Artificial Intelligence<span>and the research that gets it there</span></p>
+    </div>
+    <div class="cell">
+      <h4>Also</h4>
+      <p>Research &amp; Development<span>quietly, mostly</span></p>
+    </div>
+    <div class="cell">
+      <h4>Khmer</h4>
+      <p>Native<span>or bilingual proficiency</span></p>
+    </div>
+    <div class="cell">
+      <h4>English</h4>
+      <p>Full professional<span>working tongue</span></p>
+    </div>
+    <div class="cell">
+      <h4>Korean</h4>
+      <p>Limited working<span>and improving</span></p>
+    </div>
+    <div class="cell">
+      <h4>CSAK</h4>
+      <p>Vice President<span>Jul 2024 — Present</span></p>
+    </div>
+    <div class="cell">
+      <h4>Previously</h4>
+      <p>Secretary, CSAK<span>Jul 2023 — Jul 2024</span></p>
+    </div>
+    <div class="cell">
+      <h4>Scholarship</h4>
+      <p>GKS-U '22<span>fully funded, NIIED · ROK</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- ░░ HONORS ░░ -->
+<section class="spread">
+  <span class="section-label">III — Honors &amp; Mentions</span>
+  <h2>Eight small <em>commendations,</em><br>most-recent first.</h2>
+  <p class="sub">A reader is welcome to begin from the bottom; the chronology rewards it.</p>
+
+  <div class="entries">
+    <div class="e-side">
+      <div class="e-label">Section</div>
+      <div class="e-label" style="padding-top:0">In total</div>
+      <div class="e-count">08</div>
+      <div class="e-label" style="padding-top:24px;color:var(--ink-soft)">From 2019 to 2023, across<br>climate, mathematics, debate,<br>policy and environment.</div>
+    </div>
+
+    <div class="e-list">
+      <div class="entry">
+        <div class="e-date">Nov 2023</div>
+        <div class="e-title"><b>Grand Prize Winner</b> — 2nd Asia Youth Future Forum<br><em>Climate strategy &amp; industrial transition · Asia Exchange Association + Pyeongtech IEF</em></div>
+        <div class="e-meta award">First place</div>
+      </div>
+      <div class="entry">
+        <div class="e-date">Sep 2023</div>
+        <div class="e-title"><b>Semi Finalist</b> — Climate Science Olympiad<br><em>Also a semi-finalist in 2021</em></div>
+        <div class="e-meta">Semi-finals</div>
+      </div>
+      <div class="entry">
+        <div class="e-date">Jan 2022</div>
+        <div class="e-title"><b>GKS-U 2022 Scholarship Recipient</b><br><em>National Institute for International Education, Republic of Korea</em></div>
+        <div class="e-meta award">Fully funded</div>
+      </div>
+      <div class="entry">
+        <div class="e-date">Sep 2021</div>
+        <div class="e-title"><b>Merit Award</b> — Mathematics Outstanding Students Cambodia</div>
+        <div class="e-meta">Merit</div>
+      </div>
+      <div class="entry">
+        <div class="e-date">May 2021</div>
+        <div class="e-title"><b>Participation</b> — 5th Global Youth Environmental Essay Competition</div>
+        <div class="e-meta">Entrant</div>
+      </div>
+      <div class="entry">
+        <div class="e-date">Apr 2021</div>
+        <div class="e-title"><b>Quarter Finalist</b> — Cambodia Public Speaking &amp; Debate Association</div>
+        <div class="e-meta">Quarters</div>
+      </div>
+      <div class="entry">
+        <div class="e-date">Mar 2021</div>
+        <div class="e-title"><b>Participation</b> — 3rd Model ASEAN Meeting at AUPP</div>
+        <div class="e-meta">Delegate</div>
+      </div>
+      <div class="entry">
+        <div class="e-date">May 2019</div>
+        <div class="e-title"><b>Global Round Qualifier</b> — World Scholar's Cup</div>
+        <div class="e-meta">Qualifier</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ░░ COLOPHON ░░ -->
+<footer class="colophon">
+  <div class="crow">
+    <div class="mark reveal" data-split>
+      Correspondence,<br>
+      and the <em>usual</em> channels.
+    </div>
+    <div class="meta">
+      <div>Subject</div>
+      <div style="font-family:'Fraunces',serif;text-transform:none;letter-spacing:0;font-size:17px;color:var(--ink);font-style:italic;margin-bottom:14px;">Kimtong Peng</div>
+
+      <div>Based</div>
+      <div style="font-family:'Fraunces',serif;text-transform:none;letter-spacing:0;font-size:17px;color:var(--ink);font-style:italic;margin-bottom:14px;">Seoul · Phnom Penh</div>
+
+      <div>Profession</div>
+      <div style="font-family:'Fraunces',serif;text-transform:none;letter-spacing:0;font-size:17px;color:var(--ink);font-style:italic;">AI R&amp;D, NeWwave</div>
+    </div>
+    <div class="meta">
+      <div>Connect</div>
+      <div style="font-family:'Fraunces',serif;text-transform:none;letter-spacing:0;font-size:17px;color:var(--ink);font-style:italic;margin-bottom:14px;">
+        <a href="https://www.linkedin.com/in/kimtong-peng" target="_blank" rel="noopener">LinkedIn / kimtong-peng</a>
+      </div>
+      <div>House</div>
+      <div style="font-family:'Fraunces',serif;text-transform:none;letter-spacing:0;font-size:17px;color:var(--ink);font-style:italic;margin-bottom:14px;">
+        <a href="https://www.linkedin.com/company/newwaveglobal/" target="_blank" rel="noopener">NeWwave / newwaveglobal</a>
+      </div>
+      <div>Affiliation</div>
+      <div style="font-family:'Fraunces',serif;text-transform:none;letter-spacing:0;font-size:17px;color:var(--ink);font-style:italic;">
+        CSAK · Vice President
+      </div>
+    </div>
+  </div>
+
+  <div class="endmark">End of Profile №&nbsp;001 — Set in Fraunces &amp; Inter Tight. Printed in cream and oxblood.</div>
+</footer>
+
+<script>
+  // ── line-by-line split for elements marked [data-split]
+  (function(){
+    var splitTargets = document.querySelectorAll('[data-split]');
+    splitTargets.forEach(function(el){
+      // each <br> defines a line; otherwise treat the whole thing as one line
+      var html = el.innerHTML;
+      // Normalize whitespace
+      var parts = html.split(/<br\s*\/?>(?![^<]*>)/i);
+      var out = parts.map(function(p){
+        // wrap inner content; preserve inline tags like <em>, <span>
+        return '<span class="ln"><span>' + p.trim() + '</span></span>';
+      }).join('<br>');
+      el.innerHTML = out;
+      el.classList.add('split-ready');
+    });
+  })();
+
+  // ── IntersectionObserver: add .in on reveal, once
+  (function(){
+    var targets = document.querySelectorAll('.reveal, .fade, .section-label, .pull, .portrait-frame');
+    if(!('IntersectionObserver' in window)){
+      targets.forEach(function(t){ t.classList.add('in'); });
+      return;
+    }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){
+          en.target.classList.add('in');
+          io.unobserve(en.target);
+        }
+      });
+    }, { threshold: 0.18, rootMargin: '0px 0px -8% 0px' });
+
+    targets.forEach(function(t){ io.observe(t); });
+  })();
+</script>
+
+</body>
+</html>

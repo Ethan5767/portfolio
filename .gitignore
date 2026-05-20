@@ -1,0 +1,29 @@
+.DS_Store
+Thumbs.db
+
+.vscode/
+.idea/
+*.swp
+*~
+
+node_modules/
+.cache/
+dist/
+build/
+
+.env
+.env.local
+
+assets/telegram-cloud-document-*
+
+# Playwright artifacts + debug screenshots
+.playwright-mcp/
+preview-*.jpg
+preview-*.png
+portfolio-preview-*.jpg
+portfolio-final.jpg
+*-preview.jpg
+*-preview.png
+
+# OG generation helper (tool only — site uses the generated assets/og-image.jpg)
+og-template.html

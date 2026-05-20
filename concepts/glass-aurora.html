@@ -1,0 +1,740 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Kimtong Peng — Engineer, Researcher, Bridge</title>
+<meta name="description" content="Kimtong Peng — Cambodian engineer in Seoul. AI R&D Lead at NeWwave. Sungkyunkwan ME. Vice President, CSAK." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#06060E;
+    --bg-2:#0A0A18;
+    --ink:#E7E9F2;
+    --ink-dim:#A8ADC4;
+    --ink-mute:#6B7088;
+    --indigo:#5B6BFF;
+    --cyan:#7BE4FF;
+    --violet:#A78BFA;
+    --line:rgba(255,255,255,0.08);
+    --line-strong:rgba(255,255,255,0.16);
+    --glass:rgba(255,255,255,0.04);
+    --glass-2:rgba(255,255,255,0.06);
+    --radius:22px;
+    --radius-lg:28px;
+    --maxw:1240px;
+    --ease:cubic-bezier(.2,.7,.2,1);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:'Inter',ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;font-feature-settings:"ss01","cv11";line-height:1.55;overflow-x:hidden}
+  body{min-height:100vh;position:relative;isolation:isolate}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:rgba(123,228,255,0.25);color:#fff}
+
+  /* === Aurora field === */
+  .aurora{position:fixed;inset:-10vmax;z-index:-3;overflow:hidden;pointer-events:none}
+  .aurora::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%, transparent 0%, var(--bg) 75%)}
+  .blob{position:absolute;border-radius:50%;filter:blur(90px);opacity:.55;mix-blend-mode:screen;will-change:transform}
+  .b1{width:62vmax;height:62vmax;left:-18vmax;top:-22vmax;background:radial-gradient(circle at 30% 30%, #5B6BFF 0%, rgba(91,107,255,0) 60%);animation:drift1 60s var(--ease) infinite alternate}
+  .b2{width:54vmax;height:54vmax;right:-16vmax;top:-8vmax;background:radial-gradient(circle at 50% 50%, #7BE4FF 0%, rgba(123,228,255,0) 60%);animation:drift2 80s var(--ease) infinite alternate;opacity:.42}
+  .b3{width:70vmax;height:70vmax;left:10vmax;bottom:-32vmax;background:radial-gradient(circle at 50% 50%, #A78BFA 0%, rgba(167,139,250,0) 60%);animation:drift3 40s var(--ease) infinite alternate;opacity:.48}
+  @keyframes drift1{
+    0%{transform:translate(0,0) scale(1)}
+    50%{transform:translate(10vmax,6vmax) scale(1.12)}
+    100%{transform:translate(-6vmax,12vmax) scale(.95)}
+  }
+  @keyframes drift2{
+    0%{transform:translate(0,0) scale(1)}
+    50%{transform:translate(-12vmax,8vmax) scale(1.08)}
+    100%{transform:translate(8vmax,-4vmax) scale(1.05)}
+  }
+  @keyframes drift3{
+    0%{transform:translate(0,0) scale(1)}
+    50%{transform:translate(-8vmax,-10vmax) scale(.92)}
+    100%{transform:translate(14vmax,-6vmax) scale(1.15)}
+  }
+
+  /* === Noise overlay === */
+  .noise{position:fixed;inset:0;z-index:-2;pointer-events:none;opacity:.05;mix-blend-mode:overlay;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.6 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");background-size:220px 220px}
+
+  /* === Grid ghost === */
+  .grid-lines{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.35;background-image:
+    linear-gradient(to right, rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size:80px 80px;
+    mask-image:radial-gradient(ellipse at 50% 30%, #000 0%, transparent 75%);
+    -webkit-mask-image:radial-gradient(ellipse at 50% 30%, #000 0%, transparent 75%);
+  }
+
+  /* === Cursor glow === */
+  .cursor-glow{position:fixed;top:0;left:0;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle, rgba(123,228,255,0.18) 0%, rgba(91,107,255,0.08) 35%, transparent 65%);transform:translate(-50%,-50%);pointer-events:none;z-index:1;mix-blend-mode:screen;transition:opacity .4s ease;opacity:0;will-change:transform}
+  .cursor-glow.on{opacity:1}
+
+  /* === Layout === */
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px;position:relative;z-index:2}
+  @media (max-width:560px){.wrap{padding:0 18px}}
+
+  /* === Nav === */
+  nav.top{position:sticky;top:0;z-index:50;backdrop-filter:saturate(140%) blur(14px);-webkit-backdrop-filter:saturate(140%) blur(14px);background:linear-gradient(180deg, rgba(6,6,14,0.75), rgba(6,6,14,0.35));border-bottom:1px solid rgba(255,255,255,0.04)}
+  .nav-inner{max-width:var(--maxw);margin:0 auto;padding:14px 28px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+  @media (max-width:560px){.nav-inner{padding:12px 18px}}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:600;letter-spacing:-0.01em}
+  .brand .dot{width:9px;height:9px;border-radius:50%;background:linear-gradient(135deg,var(--cyan),var(--indigo));box-shadow:0 0 18px var(--cyan),0 0 36px rgba(91,107,255,0.45);animation:pulseDot 3s ease-in-out infinite}
+  @keyframes pulseDot{0%,100%{filter:brightness(1)}50%{filter:brightness(1.4)}}
+  .nav-links{display:flex;gap:6px;align-items:center}
+  .nav-links a{font-size:13px;color:var(--ink-dim);padding:8px 12px;border-radius:10px;transition:color .25s ease, background .25s ease}
+  .nav-links a:hover{color:var(--ink);background:rgba(255,255,255,0.04)}
+  .nav-cta{font-size:13px;font-weight:500;color:var(--ink);padding:8px 14px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,0.03);display:inline-flex;align-items:center;gap:8px;transition:all .25s ease}
+  .nav-cta:hover{border-color:var(--line-strong);background:rgba(255,255,255,0.06);transform:translateY(-1px)}
+  .nav-cta svg{width:12px;height:12px}
+  @media (max-width:720px){.nav-links{display:none}}
+
+  /* === Hero === */
+  header.hero{padding:88px 0 60px;position:relative}
+  .eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:12px;color:var(--ink-dim);letter-spacing:0.14em;text-transform:uppercase;padding:7px 14px;border:1px solid var(--line);border-radius:999px;background:var(--glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+  .eyebrow .pulse{width:6px;height:6px;border-radius:50%;background:var(--cyan);box-shadow:0 0 8px var(--cyan);animation:pulseDot 2.4s ease-in-out infinite}
+  .hero-grid{display:grid;grid-template-columns:1.25fr 1fr;gap:64px;align-items:center;margin-top:36px}
+  @media (max-width:920px){.hero-grid{grid-template-columns:1fr;gap:48px}}
+  h1.title{font-family:'Inter',sans-serif;font-weight:600;font-size:clamp(44px, 7.5vw, 92px);line-height:0.98;letter-spacing:-0.035em;margin:18px 0 18px}
+  h1.title .grad{background:linear-gradient(100deg,#E7E9F2 0%, #BCC4FF 35%, #7BE4FF 60%, #A78BFA 85%, #E7E9F2 100%);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:hueShift 14s linear infinite}
+  h1.title em{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;letter-spacing:-0.01em}
+  @keyframes hueShift{0%{background-position:0% 0%}100%{background-position:200% 0%}}
+  .lead{color:var(--ink-dim);font-size:clamp(15px,1.2vw,17px);max-width:54ch;margin:0 0 28px;line-height:1.6}
+  .lead b{color:var(--ink);font-weight:500}
+  .meta-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:30px}
+  .chip{font-size:12.5px;color:var(--ink-dim);padding:7px 12px;border-radius:999px;border:1px solid var(--line);background:var(--glass);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+  .chip strong{color:var(--ink);font-weight:500}
+  .cta-row{display:flex;flex-wrap:wrap;gap:12px}
+  .btn{display:inline-flex;align-items:center;gap:10px;font-size:14px;font-weight:500;padding:13px 20px;border-radius:14px;transition:all .3s var(--ease);cursor:pointer;border:1px solid transparent}
+  .btn-primary{background:linear-gradient(180deg, rgba(123,228,255,0.18), rgba(91,107,255,0.18));border-color:rgba(123,228,255,0.35);color:var(--ink);box-shadow:0 1px 0 rgba(255,255,255,0.12) inset, 0 0 0 0 rgba(123,228,255,0.0)}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 1px 0 rgba(255,255,255,0.18) inset, 0 12px 36px -8px rgba(123,228,255,0.4)}
+  .btn-ghost{background:var(--glass);border-color:var(--line);color:var(--ink-dim);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+  .btn-ghost:hover{color:var(--ink);border-color:var(--line-strong);transform:translateY(-2px)}
+  .btn svg{width:14px;height:14px;opacity:.8}
+
+  /* === Portrait === */
+  .portrait-wrap{position:relative;justify-self:end;width:100%;max-width:460px}
+  @media (max-width:920px){.portrait-wrap{justify-self:center;max-width:360px}}
+  .portrait-frame{position:relative;border-radius:28px;overflow:hidden;border:1px solid rgba(255,255,255,0.1);background:linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.01));backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);aspect-ratio:933/1400;box-shadow:0 30px 80px -20px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04) inset;animation:halo 4.2s ease-in-out infinite}
+  @keyframes halo{
+    0%,100%{box-shadow:0 30px 80px -20px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05) inset, 0 0 0 0 rgba(91,107,255,0), 0 0 60px -10px rgba(123,228,255,0.15)}
+    50%{box-shadow:0 30px 100px -20px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.08) inset, 0 0 0 6px rgba(91,107,255,0.05), 0 0 90px -10px rgba(123,228,255,0.35)}
+  }
+  .portrait-frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(0.88) contrast(1.02) brightness(0.96) hue-rotate(-6deg)}
+  .portrait-frame::after{content:"";position:absolute;inset:0;background:linear-gradient(160deg, rgba(91,107,255,0.18) 0%, transparent 35%, transparent 65%, rgba(123,228,255,0.16) 100%);mix-blend-mode:overlay;pointer-events:none}
+  .portrait-frame::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg, transparent 60%, rgba(6,6,14,0.55) 100%);pointer-events:none;z-index:1}
+  .portrait-caption{position:absolute;left:18px;bottom:16px;right:18px;z-index:2;display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+  .portrait-caption .who{font-size:13px;color:var(--ink);font-weight:500;letter-spacing:-0.01em}
+  .portrait-caption .who span{display:block;font-size:11.5px;color:var(--ink-dim);font-weight:400;margin-top:2px;letter-spacing:0}
+  .portrait-tag{font-size:10.5px;letter-spacing:0.16em;text-transform:uppercase;color:var(--cyan);padding:5px 9px;border:1px solid rgba(123,228,255,0.3);border-radius:6px;background:rgba(123,228,255,0.08);backdrop-filter:blur(6px)}
+
+  .hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}
+  .hero-stats .stat{padding:14px 14px;border-radius:14px;background:var(--glass);border:1px solid var(--line);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+  .hero-stats .stat .k{font-size:11px;color:var(--ink-mute);letter-spacing:0.1em;text-transform:uppercase}
+  .hero-stats .stat .v{font-size:14px;color:var(--ink);font-weight:500;margin-top:4px;letter-spacing:-0.01em}
+
+  /* === Section heading === */
+  section{padding:80px 0;position:relative}
+  @media (max-width:720px){section{padding:60px 0}}
+  .sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:36px}
+  .sec-label{font-size:11.5px;letter-spacing:0.18em;text-transform:uppercase;color:var(--cyan);display:inline-flex;align-items:center;gap:10px}
+  .sec-label::before{content:"";width:18px;height:1px;background:var(--cyan);opacity:.6}
+  .sec-title{font-size:clamp(28px,3.4vw,40px);font-weight:600;letter-spacing:-0.025em;margin:8px 0 0;line-height:1.1}
+  .sec-title em{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:var(--cyan)}
+  .sec-blurb{color:var(--ink-dim);max-width:42ch;font-size:14.5px;line-height:1.6}
+
+  /* === Glass card === */
+  .card{position:relative;background:var(--glass);border:1px solid var(--line);border-radius:var(--radius);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);padding:24px;transition:transform .4s var(--ease), border-color .4s var(--ease), box-shadow .4s var(--ease), background .4s var(--ease);will-change:transform;overflow:hidden}
+  .card::before{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(135deg, rgba(255,255,255,0.06), transparent 40%);pointer-events:none;opacity:.7}
+  .card:hover{transform:translateY(-4px);border-color:var(--line-strong);background:var(--glass-2);box-shadow:0 24px 60px -20px rgba(91,107,255,0.25), 0 0 0 1px rgba(255,255,255,0.06) inset, 0 0 80px -20px rgba(123,228,255,0.2)}
+
+  /* === Now / Role === */
+  .now-grid{display:grid;grid-template-columns:1.35fr 1fr;gap:22px}
+  @media (max-width:920px){.now-grid{grid-template-columns:1fr}}
+  .role-card{padding:32px}
+  .role-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:20px}
+  .live{display:inline-flex;align-items:center;gap:8px;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#7BE4FF;padding:6px 10px;border:1px solid rgba(123,228,255,0.3);border-radius:999px;background:rgba(123,228,255,0.06)}
+  .live .dotlive{width:6px;height:6px;border-radius:50%;background:var(--cyan);box-shadow:0 0 10px var(--cyan);animation:pulseDot 1.8s infinite}
+  .role-title{font-size:clamp(22px,2.3vw,30px);font-weight:600;letter-spacing:-0.02em;margin:6px 0 6px}
+  .role-org{font-size:14px;color:var(--ink-dim)}
+  .role-org strong{color:var(--ink);font-weight:500}
+  .role-divider{height:1px;background:linear-gradient(90deg, transparent, var(--line-strong), transparent);margin:22px 0}
+  .role-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  @media (max-width:520px){.role-meta{grid-template-columns:1fr 1fr}}
+  .role-meta .cell{padding:12px;border-radius:12px;background:rgba(255,255,255,0.025);border:1px solid var(--line)}
+  .cell .k{font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-mute)}
+  .cell .v{font-size:13.5px;color:var(--ink);margin-top:4px;font-weight:500}
+  .role-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+  .tag{font-size:12px;color:var(--ink-dim);padding:5px 10px;border-radius:8px;background:rgba(255,255,255,0.03);border:1px solid var(--line)}
+
+  .ident-card{padding:28px;display:flex;flex-direction:column;gap:18px}
+  .ident-row{display:flex;align-items:flex-start;gap:14px}
+  .ident-icon{width:36px;height:36px;flex:0 0 36px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,0.03);display:grid;place-items:center;color:var(--cyan)}
+  .ident-icon svg{width:16px;height:16px}
+  .ident-text .k{font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-mute)}
+  .ident-text .v{font-size:14px;color:var(--ink);margin-top:3px;font-weight:500;letter-spacing:-0.005em}
+  .ident-text .v small{display:block;color:var(--ink-dim);font-weight:400;margin-top:2px;font-size:12.5px;letter-spacing:0}
+
+  /* === Education / Volunteer columns === */
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  @media (max-width:920px){.two-col{grid-template-columns:1fr}}
+  .timeline{padding:28px}
+  .t-item{position:relative;padding:14px 0 14px 22px;border-left:1px solid var(--line)}
+  .t-item:not(:last-child){border-bottom:1px dashed rgba(255,255,255,0.05)}
+  .t-item::before{content:"";position:absolute;left:-4.5px;top:18px;width:8px;height:8px;border-radius:50%;background:var(--bg);border:1px solid var(--cyan);box-shadow:0 0 0 3px rgba(123,228,255,0.08)}
+  .t-item .when{font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-mute)}
+  .t-item .what{font-size:14.5px;color:var(--ink);margin-top:4px;font-weight:500;letter-spacing:-0.01em}
+  .t-item .where{font-size:13px;color:var(--ink-dim);margin-top:2px}
+
+  /* === Awards === */
+  .awards-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  @media (max-width:920px){.awards-grid{grid-template-columns:1fr 1fr}}
+  @media (max-width:560px){.awards-grid{grid-template-columns:1fr}}
+  .award{padding:22px;display:flex;flex-direction:column;justify-content:space-between;min-height:170px}
+  .award .top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:14px}
+  .award .rank{font-family:'Instrument Serif',serif;font-style:italic;font-size:24px;color:var(--cyan);letter-spacing:-0.01em;line-height:1}
+  .award .year{font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-mute);padding:5px 9px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,0.02)}
+  .award h4{font-size:15px;line-height:1.35;margin:0;font-weight:500;letter-spacing:-0.01em;color:var(--ink)}
+  .award p{margin:8px 0 0;font-size:12.5px;color:var(--ink-dim);line-height:1.5}
+
+  /* === Languages / skills === */
+  .lang-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  @media (max-width:720px){.lang-grid{grid-template-columns:1fr}}
+  .lang{padding:24px}
+  .lang .name{font-size:18px;font-weight:600;letter-spacing:-0.015em;display:flex;align-items:center;gap:10px}
+  .lang .name .iso{font-family:'Instrument Serif',serif;font-style:italic;color:var(--cyan);font-weight:400;font-size:16px}
+  .lang .level{font-size:13px;color:var(--ink-dim);margin-top:6px}
+  .meter{height:4px;border-radius:999px;background:rgba(255,255,255,0.05);margin-top:14px;overflow:hidden;position:relative}
+  .meter > span{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--indigo),var(--cyan));box-shadow:0 0 12px rgba(123,228,255,0.5);transform-origin:left;transform:scaleX(0);transition:transform 1.4s var(--ease)}
+  .meter.in > span{transform:scaleX(var(--p,0.6))}
+
+  /* === Connect === */
+  .connect{position:relative;padding:54px;border-radius:var(--radius-lg);overflow:hidden}
+  .connect::before{content:"";position:absolute;inset:0;background:radial-gradient(80% 100% at 50% 0%, rgba(91,107,255,0.18), transparent 65%), radial-gradient(60% 100% at 100% 100%, rgba(123,228,255,0.14), transparent 60%);pointer-events:none}
+  .connect-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:30px;align-items:center;position:relative}
+  @media (max-width:820px){.connect-grid{grid-template-columns:1fr}}
+  .connect h3{font-size:clamp(26px,3vw,38px);font-weight:600;letter-spacing:-0.025em;margin:8px 0 10px;line-height:1.1}
+  .connect h3 em{font-family:'Instrument Serif',serif;font-style:italic;color:var(--cyan);font-weight:400}
+  .connect p{color:var(--ink-dim);max-width:46ch;font-size:14.5px}
+  .connect-side{display:flex;flex-direction:column;gap:10px}
+  .connect-link{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,0.03);transition:all .3s var(--ease)}
+  .connect-link:hover{border-color:rgba(123,228,255,0.3);background:rgba(123,228,255,0.05);transform:translateX(4px)}
+  .connect-link .left{display:flex;align-items:center;gap:14px}
+  .connect-link .left .ic{width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,0.05);display:grid;place-items:center;color:var(--cyan)}
+  .connect-link .left .ic svg{width:14px;height:14px}
+  .connect-link .k{font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-mute)}
+  .connect-link .v{font-size:14px;color:var(--ink);font-weight:500;letter-spacing:-0.005em;margin-top:2px}
+  .connect-link .arr{color:var(--ink-mute);transition:color .3s ease}
+  .connect-link:hover .arr{color:var(--cyan)}
+
+  /* === Footer === */
+  footer{padding:36px 0 56px;color:var(--ink-mute);font-size:12.5px;letter-spacing:0.01em}
+  .foot-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px}
+
+  /* === Reveal === */
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity .9s var(--ease), transform .9s var(--ease)}
+  .reveal.in{opacity:1;transform:none}
+  .reveal[data-d="1"]{transition-delay:.06s}
+  .reveal[data-d="2"]{transition-delay:.12s}
+  .reveal[data-d="3"]{transition-delay:.18s}
+  .reveal[data-d="4"]{transition-delay:.24s}
+  .reveal[data-d="5"]{transition-delay:.30s}
+  .reveal[data-d="6"]{transition-delay:.36s}
+
+  @media (max-width:720px){
+    .cursor-glow{display:none}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .blob{animation:none}
+    .portrait-frame{animation:none}
+    .reveal{opacity:1;transform:none;transition:none}
+    .cursor-glow{display:none}
+    h1.title .grad{animation:none}
+    .meter > span{transition:none}
+  }
+</style>
+</head>
+<body>
+  <div class="aurora" aria-hidden="true">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+  </div>
+  <div class="grid-lines" aria-hidden="true"></div>
+  <div class="noise" aria-hidden="true"></div>
+  <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+
+  <nav class="top">
+    <div class="nav-inner">
+      <a class="brand" href="#top">
+        <span class="dot"></span>
+        <span>Kimtong Peng</span>
+      </a>
+      <div class="nav-links">
+        <a href="#work">Work</a>
+        <a href="#story">Story</a>
+        <a href="#awards">Awards</a>
+        <a href="#connect">Connect</a>
+      </div>
+      <a class="nav-cta" href="https://www.linkedin.com/in/kimtong-peng" target="_blank" rel="noopener">
+        LinkedIn
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 17L17 7M9 7h8v8"/></svg>
+      </a>
+    </div>
+  </nav>
+
+  <main id="top">
+    <div class="wrap">
+      <header class="hero">
+        <div class="reveal" data-d="1">
+          <span class="eyebrow"><span class="pulse"></span>Engineer · Researcher · Bridge</span>
+        </div>
+        <div class="hero-grid">
+          <div>
+            <h1 class="title reveal" data-d="2">
+              Building <em>quiet</em> systems<br/>that <span class="grad">think out loud.</span>
+            </h1>
+            <p class="lead reveal" data-d="3">
+              <b>Cambodian engineer in Seoul.</b> Mechanical Engineering grad from Sungkyunkwan,
+              now leading AI Research &amp; Development at <b>NeWwave</b>. I work where models meet
+              mechanics — and where three cultures, three languages, and three disciplines find a
+              shared seam.
+            </p>
+            <div class="meta-row reveal" data-d="4">
+              <span class="chip"><strong>Seoul</strong> · originally Phnom Penh</span>
+              <span class="chip">AI R&amp;D Lead · <strong>NeWwave</strong></span>
+              <span class="chip">VP · <strong>CSAK</strong></span>
+            </div>
+            <div class="cta-row reveal" data-d="5">
+              <a class="btn btn-primary" href="#connect">
+                Get in touch
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </a>
+              <a class="btn btn-ghost" href="#work">
+                See the work
+              </a>
+            </div>
+            <div class="hero-stats reveal" data-d="6">
+              <div class="stat"><div class="k">Now</div><div class="v">AI R&amp;D · NeWwave</div></div>
+              <div class="stat"><div class="k">Since</div><div class="v">Jan 2024</div></div>
+              <div class="stat"><div class="k">Based</div><div class="v">Seoul · Remote</div></div>
+            </div>
+          </div>
+
+          <div class="portrait-wrap reveal parallax" data-d="3" data-depth="6">
+            <div class="portrait-frame">
+              <img src="../assets/profile.jpg" alt="Kimtong Peng in sunglasses holding a capybara plush" loading="eager" />
+              <div class="portrait-caption">
+                <div class="who">Kimtong Peng <span>+ co-pilot capybara</span></div>
+                <span class="portrait-tag">2025</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section id="work">
+        <div class="sec-head reveal">
+          <div>
+            <span class="sec-label">01 — Currently</span>
+            <h2 class="sec-title">Leading research <em>in motion.</em></h2>
+          </div>
+          <p class="sec-blurb">An AI R&amp;D mandate that spans applied research, prototyping, and the slow craft of turning ideas into shipping product.</p>
+        </div>
+
+        <div class="now-grid">
+          <div class="card role-card reveal parallax" data-d="1" data-depth="4">
+            <div class="role-head">
+              <span class="live"><span class="dotlive"></span>Active role</span>
+              <span class="chip">2 yrs 5 mos</span>
+            </div>
+            <div>
+              <div class="sec-label" style="color:var(--violet)">NeWwave</div>
+              <h3 class="role-title">AI Research &amp; Development Lead</h3>
+              <p class="role-org">Setting research direction, prototyping AI systems, and turning experimental work into production-ready tooling.</p>
+            </div>
+            <div class="role-divider"></div>
+            <div class="role-meta">
+              <div class="cell"><div class="k">Since</div><div class="v">Jan 2024</div></div>
+              <div class="cell"><div class="k">Tenure</div><div class="v">2 yrs 5 mos</div></div>
+              <div class="cell"><div class="k">Mode</div><div class="v">Remote · Phnom Penh</div></div>
+            </div>
+            <div class="role-tags">
+              <span class="tag">Artificial Intelligence</span>
+              <span class="tag">R&amp;D</span>
+              <span class="tag">Applied Research</span>
+              <span class="tag">Prototyping</span>
+            </div>
+          </div>
+
+          <div class="card ident-card reveal parallax" data-d="2" data-depth="4">
+            <div class="ident-row">
+              <div class="ident-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.5-7-12a7 7 0 1114 0c0 5.5-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>
+              </div>
+              <div class="ident-text">
+                <div class="k">Where</div>
+                <div class="v">Seoul, South Korea<small>Originally Phnom Penh, Cambodia</small></div>
+              </div>
+            </div>
+            <div class="ident-row">
+              <div class="ident-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7h18M3 12h18M3 17h12"/></svg>
+              </div>
+              <div class="ident-text">
+                <div class="k">Languages</div>
+                <div class="v">Khmer · English · Korean<small>Native · Full professional · Limited working</small></div>
+              </div>
+            </div>
+            <div class="ident-row">
+              <div class="ident-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12c4 2 14 2 18 0M12 3c3 4 3 14 0 18M12 3c-3 4-3 14 0 18"/></svg>
+              </div>
+              <div class="ident-text">
+                <div class="k">Civic</div>
+                <div class="v">Vice President, CSAK<small>Cambodian Student Association in Korea · since Jul 2024</small></div>
+              </div>
+            </div>
+            <div class="ident-row">
+              <div class="ident-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg>
+              </div>
+              <div class="ident-text">
+                <div class="k">Top skills</div>
+                <div class="v">AI · R&amp;D<small>Built on a Mechanical Engineering foundation</small></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="story">
+        <div class="sec-head reveal">
+          <div>
+            <span class="sec-label">02 — Trajectory</span>
+            <h2 class="sec-title">From Phnom Penh to <em>Seoul.</em></h2>
+          </div>
+          <p class="sec-blurb">A path through mechanical engineering, two languages learned in country, and a civic role that ties it all together.</p>
+        </div>
+
+        <div class="two-col">
+          <div class="card timeline reveal parallax" data-d="1" data-depth="3">
+            <div class="sec-label" style="color:var(--violet);margin-bottom:14px">Education</div>
+            <div class="t-item">
+              <div class="when">Mar 2023 · Graduated</div>
+              <div class="what">BE, Mechanical Engineering</div>
+              <div class="where">Sungkyunkwan University</div>
+            </div>
+            <div class="t-item">
+              <div class="when">Feb 2022 – Feb 2023</div>
+              <div class="what">Korean Language Program</div>
+              <div class="where">Daegu University</div>
+            </div>
+            <div class="t-item">
+              <div class="when">2009 – 2021</div>
+              <div class="what">High School Diploma</div>
+              <div class="where">Beltei International School</div>
+            </div>
+          </div>
+
+          <div class="card timeline reveal parallax" data-d="2" data-depth="3">
+            <div class="sec-label" style="color:var(--violet);margin-bottom:14px">Volunteer — CSAK</div>
+            <div class="t-item">
+              <div class="when">Jul 2024 – Present · Education</div>
+              <div class="what">Vice President</div>
+              <div class="where">Cambodian Student Association in Korea</div>
+            </div>
+            <div class="t-item">
+              <div class="when">Jul 2023 – Jul 2024 · Social Services</div>
+              <div class="what">Secretary</div>
+              <div class="where">Cambodian Student Association in Korea</div>
+            </div>
+            <div class="t-item">
+              <div class="when">Ongoing</div>
+              <div class="what">Promoting Cambodia's image in Korea</div>
+              <div class="where">Supporting Cambodian students living in Korea</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="sec-head reveal">
+          <div>
+            <span class="sec-label">03 — Languages</span>
+            <h2 class="sec-title">Three tongues, <em>one signal.</em></h2>
+          </div>
+          <p class="sec-blurb">Working across Khmer, English, and Korean — the everyday substrate for everything else.</p>
+        </div>
+        <div class="lang-grid">
+          <div class="card lang reveal parallax" data-d="1" data-depth="3">
+            <div class="name">Central Khmer <span class="iso">km</span></div>
+            <div class="level">Native</div>
+            <div class="meter" data-p="1"><span></span></div>
+          </div>
+          <div class="card lang reveal parallax" data-d="2" data-depth="3">
+            <div class="name">English <span class="iso">en</span></div>
+            <div class="level">Full professional</div>
+            <div class="meter" data-p="0.92"><span></span></div>
+          </div>
+          <div class="card lang reveal parallax" data-d="3" data-depth="3">
+            <div class="name">Korean <span class="iso">ko</span></div>
+            <div class="level">Limited working</div>
+            <div class="meter" data-p="0.5"><span></span></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="awards">
+        <div class="sec-head reveal">
+          <div>
+            <span class="sec-label">04 — Recognition</span>
+            <h2 class="sec-title">Honors &amp; <em>awards.</em></h2>
+          </div>
+          <p class="sec-blurb">Selected recognition across climate, mathematics, debate, and international scholarship — most recent first.</p>
+        </div>
+
+        <div class="awards-grid">
+          <article class="card award reveal parallax" data-d="1" data-depth="3">
+            <div class="top">
+              <span class="rank">Grand Prize</span>
+              <span class="year">Nov 2023</span>
+            </div>
+            <div>
+              <h4>2nd Asia Youth Future Forum</h4>
+              <p>Proposals on climate &amp; the Fourth Industrial Revolution.</p>
+            </div>
+          </article>
+          <article class="card award reveal parallax" data-d="2" data-depth="3">
+            <div class="top">
+              <span class="rank">Semi-Finalist</span>
+              <span class="year">Sep 2023</span>
+            </div>
+            <div>
+              <h4>Climate Science Olympiad</h4>
+              <p>Also a semi-finalist in 2021.</p>
+            </div>
+          </article>
+          <article class="card award reveal parallax" data-d="3" data-depth="3">
+            <div class="top">
+              <span class="rank">Scholar</span>
+              <span class="year">Jan 2022</span>
+            </div>
+            <div>
+              <h4>GKS-U 2022 Scholarship</h4>
+              <p>National Institute for International Education, Republic of Korea.</p>
+            </div>
+          </article>
+          <article class="card award reveal parallax" data-d="4" data-depth="3">
+            <div class="top">
+              <span class="rank">Merit</span>
+              <span class="year">Sep 2021</span>
+            </div>
+            <div>
+              <h4>Mathematics Outstanding Students Cambodia</h4>
+              <p>National recognition for academic excellence.</p>
+            </div>
+          </article>
+          <article class="card award reveal parallax" data-d="5" data-depth="3">
+            <div class="top">
+              <span class="rank">5th</span>
+              <span class="year">May 2021</span>
+            </div>
+            <div>
+              <h4>Global Youth Environmental Essay Competition</h4>
+              <p>International environmental writing.</p>
+            </div>
+          </article>
+          <article class="card award reveal parallax" data-d="6" data-depth="3">
+            <div class="top">
+              <span class="rank">Quarter-Finalist</span>
+              <span class="year">Apr 2021</span>
+            </div>
+            <div>
+              <h4>Cambodia Public Speaking &amp; Debate Association</h4>
+              <p>National public speaking competition.</p>
+            </div>
+          </article>
+          <article class="card award reveal parallax" data-d="1" data-depth="3">
+            <div class="top">
+              <span class="rank">3rd</span>
+              <span class="year">Mar 2021</span>
+            </div>
+            <div>
+              <h4>Model ASEAN Meeting at AUPP</h4>
+              <p>Regional diplomatic simulation.</p>
+            </div>
+          </article>
+          <article class="card award reveal parallax" data-d="2" data-depth="3">
+            <div class="top">
+              <span class="rank">Global Round</span>
+              <span class="year">May 2019</span>
+            </div>
+            <div>
+              <h4>World Scholar's Cup — Qualifier</h4>
+              <p>Qualified for the Global Round.</p>
+            </div>
+          </article>
+          <article class="card award reveal parallax" data-d="3" data-depth="3">
+            <div class="top">
+              <span class="rank">+ more</span>
+              <span class="year">ongoing</span>
+            </div>
+            <div>
+              <h4>Building the next set</h4>
+              <p>Currently focused on shipping research from NeWwave.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section id="connect">
+        <div class="card connect reveal parallax" data-depth="4">
+          <div class="connect-grid">
+            <div>
+              <span class="sec-label">05 — Connect</span>
+              <h3>Open to a <em>conversation.</em></h3>
+              <p>Research collaborations, AI tooling, R&amp;D partnerships, or student initiatives in Korea — I read everything. Best reached on LinkedIn.</p>
+            </div>
+            <div class="connect-side">
+              <a class="connect-link" href="https://www.linkedin.com/in/kimtong-peng" target="_blank" rel="noopener">
+                <span class="left">
+                  <span class="ic">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.11 1 2.5 1s2.48 1.12 2.48 2.5zM.22 8h4.56v14H.22V8zm7.1 0h4.37v1.92h.06c.61-1.15 2.1-2.37 4.32-2.37 4.62 0 5.47 3.04 5.47 7v7.45h-4.56v-6.6c0-1.58-.03-3.6-2.2-3.6-2.2 0-2.54 1.72-2.54 3.49V22H7.32V8z"/></svg>
+                  </span>
+                  <span>
+                    <div class="k">LinkedIn</div>
+                    <div class="v">/in/kimtong-peng</div>
+                  </span>
+                </span>
+                <span class="arr">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </span>
+              </a>
+              <a class="connect-link" href="#top">
+                <span class="left">
+                  <span class="ic">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.5-7-12a7 7 0 1114 0c0 5.5-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>
+                  </span>
+                  <span>
+                    <div class="k">Based in</div>
+                    <div class="v">Seoul · KST (UTC+9)</div>
+                  </span>
+                </span>
+                <span class="arr">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/></svg>
+                </span>
+              </a>
+              <a class="connect-link" href="#work">
+                <span class="left">
+                  <span class="ic">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
+                  </span>
+                  <span>
+                    <div class="k">Currently</div>
+                    <div class="v">AI R&amp;D Lead · NeWwave</div>
+                  </span>
+                </span>
+                <span class="arr">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <div class="foot-inner">
+          <div>&copy; <span id="yr"></span> Kimtong Peng · Seoul · Phnom Penh</div>
+          <div>Glass Aurora — concept C</div>
+        </div>
+      </footer>
+    </div>
+  </main>
+
+<script>
+(function(){
+  var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var isTouch = window.matchMedia && window.matchMedia('(hover: none), (pointer: coarse)').matches;
+  var yrEl = document.getElementById('yr'); if(yrEl) yrEl.textContent = new Date().getFullYear();
+
+  // Cursor glow (desktop only)
+  if(!isTouch && !reduced){
+    var glow = document.getElementById('cursorGlow');
+    var tx=window.innerWidth/2, ty=window.innerHeight/2, cx=tx, cy=ty, active=false;
+    window.addEventListener('mousemove', function(e){
+      tx = e.clientX; ty = e.clientY;
+      if(!active){ active = true; glow.classList.add('on'); }
+    }, {passive:true});
+    window.addEventListener('mouseleave', function(){ active=false; glow.classList.remove('on'); });
+    function raf(){
+      cx += (tx - cx) * 0.12;
+      cy += (ty - cy) * 0.12;
+      glow.style.transform = 'translate('+cx+'px,'+cy+'px) translate(-50%,-50%)';
+      requestAnimationFrame(raf);
+    }
+    raf();
+  }
+
+  // Parallax cards
+  if(!isTouch && !reduced){
+    var parallaxEls = document.querySelectorAll('.parallax');
+    var mx = 0, my = 0, w = window.innerWidth, h = window.innerHeight;
+    window.addEventListener('resize', function(){ w = window.innerWidth; h = window.innerHeight; });
+    window.addEventListener('mousemove', function(e){
+      mx = (e.clientX / w) - 0.5;
+      my = (e.clientY / h) - 0.5;
+    }, {passive:true});
+    function loop(){
+      for(var i=0;i<parallaxEls.length;i++){
+        var el = parallaxEls[i];
+        var d = parseFloat(el.getAttribute('data-depth') || '3');
+        var x = (mx * d * -1).toFixed(2);
+        var y = (my * d * -1).toFixed(2);
+        el.style.setProperty('--px', x+'px');
+        el.style.setProperty('--py', y+'px');
+        el.style.transform = 'translate3d('+x+'px,'+y+'px,0)';
+      }
+      requestAnimationFrame(loop);
+    }
+    loop();
+  }
+
+  // Reveal on scroll
+  if(!reduced && 'IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){
+          en.target.classList.add('in');
+          io.unobserve(en.target);
+        }
+      });
+    }, {threshold: 0.12, rootMargin: '0px 0px -40px 0px'});
+    document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+
+    var im = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){
+          var node = en.target;
+          var p = parseFloat(node.getAttribute('data-p') || '0.6');
+          node.style.setProperty('--p', p);
+          node.classList.add('in');
+          im.unobserve(node);
+        }
+      });
+    }, {threshold: 0.4});
+    document.querySelectorAll('.meter').forEach(function(el){ im.observe(el); });
+  } else {
+    document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('in'); });
+    document.querySelectorAll('.meter').forEach(function(el){
+      el.style.setProperty('--p', el.getAttribute('data-p') || '0.6');
+      el.classList.add('in');
+    });
+  }
+})();
+</script>
+</body>
+</html>

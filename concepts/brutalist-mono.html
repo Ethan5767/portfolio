@@ -1,0 +1,1031 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>kimtong.peng / profile.txt</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     BRUTALIST MONOSPACE — kimtong peng / concept B
+     near-black on bone-white, acid hazard-yellow accent
+     ============================================================ */
+
+  :root{
+    --ink:#0A0A0A;
+    --paper:#F2EFE7;
+    --paper-2:#E8E4D6;
+    --rule:#0A0A0A;
+    --muted:#5C5A52;
+    --accent:#FFD400;          /* hazard yellow */
+    --accent-ink:#0A0A0A;
+    --gut-w-mobile: 44px;
+    --gut-w: 64px;
+    --cell: 11px;               /* base monospace cell */
+    font-feature-settings:"calt" 0,"liga" 0,"zero" 1,"ss01" 1;
+  }
+
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--paper);color:var(--ink);}
+  body{
+    font-family:"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-weight:400;
+    font-size:13px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    background-image:
+      /* paper grain via repeating tiny dots */
+      radial-gradient(rgba(10,10,10,.05) 1px, transparent 1px);
+    background-size: 3px 3px;
+    background-position: 0 0;
+    overflow-x:hidden;
+  }
+
+  ::selection{ background:var(--accent); color:var(--ink); }
+
+  /* ----- LAYOUT FRAME ---------------------------------------- */
+  .frame{
+    position:relative;
+    max-width:1200px;
+    margin:0 auto;
+    border-left:1px solid var(--rule);
+    border-right:1px solid var(--rule);
+    background:
+      linear-gradient(var(--paper),var(--paper));
+  }
+  .gutter{
+    position:absolute;
+    left:0; top:0; bottom:0;
+    width:var(--gut-w-mobile);
+    border-right:1px solid var(--rule);
+    font-size:10px;
+    color:var(--muted);
+    padding-top:8px;
+    user-select:none;
+    pointer-events:none;
+    text-align:right;
+    z-index:5;
+    background:
+      repeating-linear-gradient(
+        to bottom,
+        transparent 0 19px,
+        rgba(10,10,10,.04) 19px 20px
+      );
+  }
+  .gutter span{
+    display:block;
+    padding-right:6px;
+    height:20px;
+    line-height:20px;
+    font-variant-numeric:tabular-nums;
+  }
+  @media (min-width:760px){
+    .gutter{ width:var(--gut-w); }
+    .gutter span{ padding-right:10px; }
+    body{font-size:14px;}
+  }
+
+  .main{
+    margin-left:var(--gut-w-mobile);
+    border-left:1px solid var(--rule);
+  }
+  @media (min-width:760px){
+    .main{ margin-left:var(--gut-w); }
+  }
+
+  /* ----- TOP BAR --------------------------------------------- */
+  .topbar{
+    display:grid;
+    grid-template-columns: 1fr auto;
+    gap:0;
+    border-bottom:1px solid var(--rule);
+    font-size:11px;
+    letter-spacing:.02em;
+  }
+  .topbar .cell{
+    padding:10px 14px;
+    border-right:1px solid var(--rule);
+    display:flex; align-items:center; gap:10px;
+    text-transform:uppercase;
+  }
+  .topbar .cell:last-child{ border-right:none; }
+  .dot{
+    display:inline-block;width:8px;height:8px;background:var(--accent);
+    border:1px solid var(--ink);
+  }
+  .blink{ animation: blink 1s steps(1,end) infinite; }
+  @keyframes blink{ 50%{opacity:0} }
+
+  .topbar .meta{
+    justify-content:flex-end;
+    color:var(--muted);
+  }
+
+  /* ----- SECTION HEAD --------------------------------------- */
+  .sec{
+    border-bottom:1px solid var(--rule);
+    padding:0;
+    position:relative;
+  }
+  .sec-head{
+    display:flex; align-items:baseline; gap:12px;
+    padding:14px 14px 10px;
+    border-bottom:1px dashed rgba(10,10,10,.35);
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.04em;
+    font-size:12px;
+    position:relative;
+  }
+  .sec-head .caret{ color:var(--accent-ink); }
+  .sec-head .label{ font-weight:800; }
+  .sec-head .rule{
+    flex:1;
+    border-top:1px dashed rgba(10,10,10,.55);
+    transform-origin:left center;
+    transform: scaleX(0);
+    transition: transform .9s cubic-bezier(.2,.7,.2,1);
+    margin-bottom:4px;
+  }
+  .sec.in .sec-head .rule{ transform:scaleX(1); }
+  .sec-head .tag{
+    font-size:10px;
+    color:var(--muted);
+    border:1px solid var(--rule);
+    padding:2px 6px;
+  }
+
+  /* plus sign at corners — printed via pseudo elements */
+  .plus::before, .plus::after{
+    content:"+";
+    position:absolute;
+    font-size:12px;
+    color:var(--ink);
+    line-height:1;
+  }
+  .plus::before{ left:-6px; top:-7px; }
+  .plus::after{ right:-6px; top:-7px; }
+
+  /* ----- HERO ------------------------------------------------ */
+  .hero{
+    display:grid;
+    grid-template-columns:1fr;
+    border-bottom:1px solid var(--rule);
+  }
+  @media (min-width:900px){
+    .hero{ grid-template-columns: 1.35fr 1fr; }
+  }
+  .hero-text{
+    padding:22px 16px 28px;
+    border-bottom:1px solid var(--rule);
+    position:relative;
+  }
+  @media (min-width:900px){
+    .hero-text{ border-bottom:none; border-right:1px solid var(--rule); padding:30px 26px 36px;}
+  }
+  .prompt{
+    font-size:11px; color:var(--muted);
+    text-transform:uppercase; letter-spacing:.06em;
+    margin-bottom:14px;
+  }
+  .prompt .usr{ color:var(--ink); font-weight:700; }
+  .prompt .acc{ background:var(--accent); padding:1px 5px; border:1px solid var(--ink); color:var(--ink); }
+
+  .h1{
+    font-size: clamp(34px, 7.4vw, 76px);
+    line-height:.96;
+    letter-spacing:-.02em;
+    font-weight:800;
+    text-transform:uppercase;
+    margin:0 0 14px;
+    white-space:pre-wrap;
+    word-break:break-word;
+  }
+  .h1 .ln{ display:block; }
+  .h1 .accent-block{
+    background:var(--accent);
+    color:var(--ink);
+    padding:0 .1em;
+    box-shadow: 2px 2px 0 var(--ink);
+  }
+  .caret-blink{
+    display:inline-block;
+    width:.55em; height:.85em;
+    background:var(--ink);
+    margin-left:.08em;
+    transform:translateY(.08em);
+    animation: blink 1s steps(1,end) infinite;
+  }
+
+  .h-sub{
+    font-size:13px;
+    line-height:1.55;
+    max-width:48ch;
+    margin:0 0 18px;
+    color:var(--ink);
+  }
+  .h-sub b{ background:var(--accent); padding:0 4px; box-decoration-break:clone; -webkit-box-decoration-break:clone; }
+  .kv{
+    display:grid;
+    grid-template-columns: 110px 1fr;
+    gap:2px 14px;
+    font-size:12px;
+    margin-top:18px;
+    border-top:1px dashed rgba(10,10,10,.35);
+    padding-top:14px;
+  }
+  .kv dt{ color:var(--muted); text-transform:uppercase; letter-spacing:.04em;}
+  .kv dd{ margin:0; }
+  .kv dd a{ color:var(--ink); text-decoration:none; border-bottom:1px solid var(--ink); }
+  .kv dd a:hover{ background:var(--accent); }
+
+  /* ascii decorative box */
+  .ascii{
+    font-size:10px;
+    color:var(--muted);
+    white-space:pre;
+    line-height:1.15;
+    margin-top:22px;
+    user-select:none;
+  }
+  .ascii .y{ color:var(--accent-ink); background:var(--accent); }
+
+  /* portrait area */
+  .hero-img{
+    position:relative;
+    padding:0;
+    background:var(--paper-2);
+    overflow:hidden;
+    min-height:340px;
+  }
+  .portrait-wrap{
+    position:relative;
+    width:100%;
+    height:100%;
+    min-height:340px;
+    display:block;
+  }
+  .portrait{
+    position:absolute; inset:0;
+    width:100%; height:100%;
+    object-fit:cover;
+    object-position: 50% 28%;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    filter: grayscale(1) contrast(1.25) brightness(.98);
+    transform: scale(1.001);
+    display:block;
+    transition: filter .25s ease;
+  }
+  /* duotone tint */
+  .portrait-tint{
+    position:absolute; inset:0;
+    background: var(--accent);
+    mix-blend-mode: multiply;
+    pointer-events:none;
+    opacity:.55;
+  }
+  .portrait-paper{
+    position:absolute; inset:0;
+    background: var(--ink);
+    mix-blend-mode: lighten;
+    opacity:.18;
+    pointer-events:none;
+  }
+  /* halftone-ish dot overlay */
+  .portrait-dots{
+    position:absolute; inset:0; pointer-events:none;
+    background-image: radial-gradient(rgba(10,10,10,.55) 1px, transparent 1.4px);
+    background-size: 4px 4px;
+    mix-blend-mode: multiply;
+    opacity:.35;
+  }
+  /* scanlines */
+  .portrait-scan{
+    position:absolute; inset:0; pointer-events:none;
+    background: repeating-linear-gradient(
+      to bottom,
+      rgba(10,10,10,.0) 0 2px,
+      rgba(10,10,10,.12) 2px 3px
+    );
+    mix-blend-mode: multiply;
+  }
+  /* glitch RGB-split on hover */
+  .portrait-wrap:hover .portrait{
+    animation: glitch .22s steps(2,end) 1;
+  }
+  .portrait-wrap:hover .portrait-tint{
+    animation: glitch2 .22s steps(2,end) 1;
+  }
+  @keyframes glitch{
+    0%   { transform: translate(0,0)   scale(1.001); filter: grayscale(1) contrast(1.25); }
+    25%  { transform: translate(-3px,0) scale(1.005); filter: grayscale(1) contrast(1.4) hue-rotate(0deg); }
+    50%  { transform: translate(2px,1px) scale(1.001); filter: grayscale(1) contrast(1.2); }
+    75%  { transform: translate(-1px,-1px) scale(1.003); filter: grayscale(1) contrast(1.35); }
+    100% { transform: translate(0,0)   scale(1.001); filter: grayscale(1) contrast(1.25); }
+  }
+  @keyframes glitch2{
+    0%,100% { transform: translate(0,0); opacity:.55; }
+    33% { transform: translate(3px,-1px); opacity:.62;}
+    66% { transform: translate(-2px,2px); opacity:.5;}
+  }
+
+  /* portrait caption strip */
+  .portrait-caption{
+    position:absolute;
+    left:0; right:0; bottom:0;
+    padding:8px 12px;
+    font-size:10px;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:var(--paper);
+    background:var(--ink);
+    display:flex; justify-content:space-between; gap:10px;
+    z-index:2;
+  }
+  .portrait-caption .yel{ color:var(--accent); }
+
+  .portrait-frame-tag{
+    position:absolute; top:10px; left:10px;
+    background:var(--accent); color:var(--ink);
+    border:1px solid var(--ink);
+    padding:3px 7px;
+    font-size:10px; font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    z-index:2;
+  }
+  .portrait-frame-tag2{
+    position:absolute; top:10px; right:10px;
+    background:var(--ink); color:var(--paper);
+    border:1px solid var(--ink);
+    padding:3px 7px;
+    font-size:10px; font-weight:700;
+    z-index:2;
+  }
+
+  /* ----- BODY SECTIONS --------------------------------------- */
+  .sec-body{ padding:14px 14px 22px; }
+  @media (min-width:760px){ .sec-body{ padding:18px 26px 28px; } }
+
+  /* generic row used by logs / awards */
+  .row{
+    display:grid;
+    grid-template-columns: 70px 1fr;
+    gap:6px 14px;
+    padding:10px 0;
+    border-bottom:1px dashed rgba(10,10,10,.25);
+    opacity:0;
+    transform: translateY(6px);
+  }
+  .row.printed{ opacity:1; transform:none; transition: opacity .22s ease, transform .22s ease;}
+  .row:last-child{ border-bottom:none; }
+  .row .date{
+    font-size:10px;
+    color:var(--muted);
+    text-transform:uppercase;
+    letter-spacing:.04em;
+    padding-top:2px;
+  }
+  .row .body{ font-size:13px; }
+  .row .body .ttl{ font-weight:700; }
+  .row .body .org{ color:var(--muted); }
+  .row .body .meta{ font-size:11px; color:var(--muted); margin-top:2px;}
+  .row .body .desc{ margin-top:6px; max-width:62ch; }
+  .row .body .pill{
+    display:inline-block;
+    border:1px solid var(--ink);
+    padding:1px 6px;
+    font-size:10px;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+    margin-right:6px;
+  }
+  .row .body .pill.acc{ background:var(--accent); }
+
+  /* two-up grids */
+  .grid-2{
+    display:grid; gap:0;
+    grid-template-columns:1fr;
+  }
+  @media (min-width:760px){
+    .grid-2{ grid-template-columns: 1fr 1fr; }
+    .grid-2 > *:first-child{ border-right:1px dashed rgba(10,10,10,.35); padding-right:24px; }
+    .grid-2 > *:last-child{ padding-left:24px; }
+  }
+
+  /* skill matrix */
+  .skills{
+    display:grid; gap:8px;
+    grid-template-columns: repeat(2, 1fr);
+    margin-top:6px;
+  }
+  @media (min-width:760px){ .skills{ grid-template-columns: repeat(3, 1fr); } }
+  .skill{
+    border:1px solid var(--ink);
+    padding:10px 12px;
+    background:var(--paper);
+    position:relative;
+    font-size:12px;
+  }
+  .skill .name{ font-weight:700; text-transform:uppercase; letter-spacing:.03em; }
+  .skill .bar{
+    margin-top:8px;
+    height:6px; border:1px solid var(--ink);
+    background: repeating-linear-gradient(
+      45deg,
+      var(--paper) 0 4px,
+      rgba(10,10,10,.08) 4px 8px
+    );
+    position:relative;
+  }
+  .skill .bar i{
+    position:absolute; left:0; top:0; bottom:0;
+    background:var(--accent);
+    border-right:1px solid var(--ink);
+    width:0;
+    transition: width 1.2s cubic-bezier(.2,.7,.2,1);
+  }
+  .skill .lvl{
+    position:absolute; right:8px; top:8px;
+    font-size:10px; color:var(--muted);
+  }
+
+  /* languages */
+  .lang-list{
+    display:flex; flex-wrap:wrap; gap:8px;
+    margin-top:8px;
+  }
+  .lang{
+    border:1px solid var(--ink);
+    padding:6px 10px;
+    font-size:12px;
+    background:var(--paper);
+    display:flex; align-items:center; gap:8px;
+  }
+  .lang .pct{ font-size:10px; color:var(--muted); letter-spacing:.04em;}
+  .lang.acc{ background:var(--accent); }
+
+  /* footer */
+  footer{
+    border-top:1px solid var(--rule);
+    padding:18px 14px 26px;
+    font-size:11px;
+    color:var(--muted);
+    display:grid; gap:8px;
+  }
+  @media (min-width:760px){
+    footer{ padding:22px 26px 36px; grid-template-columns: 1fr auto; align-items:end; }
+  }
+  footer a{ color:var(--ink); text-decoration:none; border-bottom:1px solid var(--ink); }
+  footer a:hover{ background:var(--accent); }
+  .signoff{
+    font-family:inherit;
+    white-space:pre;
+    font-size:10px;
+    line-height:1.2;
+    color:var(--muted);
+  }
+
+  /* misc utils */
+  .mono-small{ font-size:11px; color:var(--muted); letter-spacing:.04em; }
+  .hr-dash{
+    border:none;
+    border-top:1px dashed rgba(10,10,10,.4);
+    margin:14px 0;
+  }
+  .inline-acc{
+    background:var(--accent);
+    padding:0 4px;
+    border:1px solid var(--ink);
+    font-weight:700;
+  }
+  .arrow{ color:var(--muted); }
+  .nowrap{ white-space:nowrap; }
+
+  /* corner registration marks (print-zine) */
+  .reg{
+    position:fixed;
+    width:18px; height:18px;
+    border:1px solid var(--ink);
+    z-index: 50;
+    pointer-events:none;
+  }
+  .reg::before, .reg::after{
+    content:""; position:absolute; background:var(--ink);
+  }
+  .reg::before{ left:50%; top:-4px; bottom:-4px; width:1px; transform:translateX(-.5px);}
+  .reg::after{  top:50%;  left:-4px; right:-4px; height:1px; transform:translateY(-.5px);}
+  .reg.tl{ top:10px; left:10px; }
+  .reg.tr{ top:10px; right:10px; }
+  .reg.bl{ bottom:10px; left:10px; }
+  .reg.br{ bottom:10px; right:10px; }
+  @media (max-width:760px){ .reg{ display:none; } }
+
+  /* small "stamp" */
+  .stamp{
+    position:absolute; right:14px; top:14px;
+    border:2px solid var(--ink);
+    color:var(--ink);
+    padding:4px 8px;
+    font-size:10px; font-weight:800;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    transform: rotate(-6deg);
+    background:var(--accent);
+  }
+
+  /* keyboard nav focus */
+  a:focus-visible, button:focus-visible{
+    outline:2px dashed var(--ink);
+    outline-offset:2px;
+    background:var(--accent);
+  }
+
+  /* reduced motion */
+  @media (prefers-reduced-motion: reduce){
+    *{ animation:none !important; transition:none !important; }
+    .row{ opacity:1; transform:none;}
+    .sec-head .rule{ transform: scaleX(1); }
+  }
+</style>
+</head>
+<body>
+
+  <div class="reg tl" aria-hidden="true"></div>
+  <div class="reg tr" aria-hidden="true"></div>
+  <div class="reg bl" aria-hidden="true"></div>
+  <div class="reg br" aria-hidden="true"></div>
+
+  <main class="frame" id="frame">
+
+    <!-- line-number gutter -->
+    <aside class="gutter" id="gutter" aria-hidden="true"></aside>
+
+    <div class="main">
+
+      <!-- TOP BAR -->
+      <header class="topbar" aria-label="status bar">
+        <div class="cell">
+          <span class="dot" aria-hidden="true"></span>
+          <span>kimtong@seoul:~$</span>
+          <span class="blink" aria-hidden="true">_</span>
+        </div>
+        <div class="cell meta">
+          <span id="clock">--:--:--&nbsp;KST</span>
+          <span>·</span>
+          <span>v1.0 // 2026</span>
+        </div>
+      </header>
+
+      <!-- HERO -->
+      <section class="sec" id="sec-hero">
+        <div class="hero">
+          <div class="hero-text plus">
+            <div class="prompt">
+              <span class="usr">kimtong@seoul</span>:<span style="color:var(--muted)">~</span>$ <span class="acc">cat&nbsp;profile.txt</span>
+            </div>
+
+            <h1 class="h1" aria-label="Kimtong Peng — Cambodian engineer in Seoul building AI R&amp;D.">
+              <span class="ln" id="t1"></span>
+              <span class="ln" id="t2"></span>
+              <span class="ln" id="t3"></span><span class="caret-blink" id="caret" aria-hidden="true"></span>
+            </h1>
+
+            <p class="h-sub">
+              <b>&gt;&gt;</b> Cambodian engineer in Seoul. Mech-E grad from
+              Sungkyunkwan. Leads <b>AI R&amp;D</b> for NeWwave. VP of the
+              Cambodian Student Association in Korea. Bridges three cultures
+              and three disciplines.
+            </p>
+
+            <dl class="kv" aria-label="quick facts">
+              <dt>location</dt><dd>Seoul, KR&nbsp;<span class="arrow">←</span>&nbsp;Phnom Penh, KH</dd>
+              <dt>role</dt><dd>AI R&amp;D Lead · <span class="inline-acc">NeWwave</span></dd>
+              <dt>status</dt><dd>open to interesting problems</dd>
+              <dt>linkedin</dt><dd><a href="https://www.linkedin.com/in/kimtong-peng" target="_blank" rel="noopener">/in/kimtong-peng</a></dd>
+            </dl>
+
+            <pre class="ascii" aria-hidden="true">
++——————————————————————————————+
+|  <span class="y">KH</span> → <span class="y">KR</span>  ·  MECH-E → AI R&amp;D    |
+|  3 cultures · 3 disciplines  |
++——————————————————————————————+</pre>
+          </div>
+
+          <div class="hero-img">
+            <div class="portrait-wrap" id="portrait" aria-label="portrait of Kimtong with capybara plush">
+              <span class="portrait-frame-tag">DUOTONE / 02</span>
+              <span class="portrait-frame-tag2">933×1400</span>
+              <img class="portrait" src="../assets/profile.jpg" alt="Kimtong Peng portrait with capybara plush" loading="eager" decoding="async" />
+              <div class="portrait-tint"></div>
+              <div class="portrait-paper"></div>
+              <div class="portrait-dots"></div>
+              <div class="portrait-scan"></div>
+              <div class="portrait-caption">
+                <span>// SUBJECT_001 — K. PENG</span>
+                <span class="yel">CAPYBARA_PRESENT=TRUE</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- WHOAMI / INDEX -->
+      <section class="sec" id="sec-index">
+        <div class="sec-head">
+          <span class="caret">&gt;</span>
+          <span class="label">INDEX</span>
+          <span class="rule"></span>
+          <span class="tag">00</span>
+        </div>
+        <div class="sec-body">
+          <pre style="white-space:pre-wrap;line-height:1.65;margin:0;font-size:12px;">
+[01]  ./career.log            <span class="arrow">—</span> current role &amp; trajectory
+[02]  ./education.log         <span class="arrow">—</span> SKKU · Daegu · Beltei
+[03]  ./skills.matrix         <span class="arrow">—</span> ai · r&amp;d · languages
+[04]  ./service.log           <span class="arrow">—</span> CSAK volunteer record
+[05]  ./awards.dump           <span class="arrow">—</span> honors &amp; recognitions
+[06]  ./contact.sh            <span class="arrow">—</span> open a channel</pre>
+        </div>
+      </section>
+
+      <!-- CAREER -->
+      <section class="sec stream" id="sec-career">
+        <div class="sec-head">
+          <span class="caret">&gt;</span><span class="label">CAREER</span><span class="rule"></span><span class="tag">01</span>
+        </div>
+        <div class="sec-body">
+          <p class="mono-small" style="margin:0 0 8px;">$ tail -f career.log</p>
+          <div class="row">
+            <div class="date">2024.01<br/>— PRESENT</div>
+            <div class="body">
+              <div><span class="pill acc">CURRENT</span><span class="ttl">AI Research &amp; Development Lead</span></div>
+              <div class="org">NeWwave · Remote (based in Phnom Penh)</div>
+              <div class="meta">2 yrs 5 mos · full-time</div>
+              <div class="desc">
+                Leads AI R&amp;D at NeWwave. Translating research into shipped
+                product surface area; building the technical spine that lets a
+                young team move past prototypes into production systems.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- EDUCATION -->
+      <section class="sec stream" id="sec-edu">
+        <div class="sec-head">
+          <span class="caret">&gt;</span><span class="label">EDUCATION</span><span class="rule"></span><span class="tag">02</span>
+        </div>
+        <div class="sec-body">
+          <div class="row">
+            <div class="date">— MAR 2023</div>
+            <div class="body">
+              <div><span class="ttl">B.E., Mechanical Engineering</span></div>
+              <div class="org">Sungkyunkwan University · Seoul, KR</div>
+              <div class="meta">degree completed</div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="date">2022.02<br/>— 2023.02</div>
+            <div class="body">
+              <div><span class="ttl">Korean Language Program</span></div>
+              <div class="org">Daegu University</div>
+              <div class="meta">GKS-U scholarship cohort · 한국어</div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="date">2009<br/>— 2021</div>
+            <div class="body">
+              <div><span class="ttl">High School Diploma</span></div>
+              <div class="org">Beltei International School · Phnom Penh, KH</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SKILLS + LANGUAGES -->
+      <section class="sec" id="sec-skills">
+        <div class="sec-head">
+          <span class="caret">&gt;</span><span class="label">SKILLS / LANG</span><span class="rule"></span><span class="tag">03</span>
+        </div>
+        <div class="sec-body">
+          <div class="grid-2">
+            <div>
+              <p class="mono-small" style="margin:0 0 4px;">$ ls ./skills/</p>
+              <div class="skills" id="skills">
+                <div class="skill">
+                  <div class="name">Artificial Intelligence</div>
+                  <div class="bar"><i data-w="92"></i></div>
+                  <div class="lvl">// top</div>
+                </div>
+                <div class="skill">
+                  <div class="name">Research &amp; Development</div>
+                  <div class="bar"><i data-w="90"></i></div>
+                  <div class="lvl">// top</div>
+                </div>
+                <div class="skill">
+                  <div class="name">Mechanical Eng.</div>
+                  <div class="bar"><i data-w="78"></i></div>
+                  <div class="lvl">// BE / SKKU</div>
+                </div>
+                <div class="skill">
+                  <div class="name">Climate / 4IR</div>
+                  <div class="bar"><i data-w="70"></i></div>
+                  <div class="lvl">// grand prize</div>
+                </div>
+                <div class="skill">
+                  <div class="name">Public Speaking</div>
+                  <div class="bar"><i data-w="64"></i></div>
+                  <div class="lvl">// debate Q-finalist</div>
+                </div>
+                <div class="skill">
+                  <div class="name">Cross-cultural Org</div>
+                  <div class="bar"><i data-w="82"></i></div>
+                  <div class="lvl">// CSAK VP</div>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <p class="mono-small" style="margin:0 0 4px;">$ locale -a</p>
+              <div class="lang-list">
+                <div class="lang acc"><span>ខ្មែរ &nbsp;Central Khmer</span><span class="pct">NATIVE</span></div>
+                <div class="lang"><span>EN&nbsp;·&nbsp;English</span><span class="pct">FULL PROF.</span></div>
+                <div class="lang"><span>한국어&nbsp;·&nbsp;Korean</span><span class="pct">LIMITED WORKING</span></div>
+              </div>
+
+              <hr class="hr-dash"/>
+
+              <p class="mono-small" style="margin:0 0 6px;">$ whoami --identity</p>
+              <pre style="white-space:pre-wrap;margin:0;font-size:12px;line-height:1.6;">
+khmer engineer · seoul resident
+mech-e by training · ai by practice
+moves between <span class="inline-acc">KH</span>, <span class="inline-acc">KR</span> &amp; the web
+prefers small teams + hard problems
+keeps a capybara on the desk</pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- VOLUNTEER / SERVICE -->
+      <section class="sec stream" id="sec-service">
+        <div class="sec-head">
+          <span class="caret">&gt;</span><span class="label">SERVICE — CSAK</span><span class="rule"></span><span class="tag">04</span>
+        </div>
+        <div class="sec-body">
+          <p class="mono-small" style="margin:0 0 8px;">
+            $ describe csak — Cambodian Student Association in Korea · NGO promoting Cambodia's image in Korea &amp; supporting Cambodian students.
+          </p>
+          <div class="row">
+            <div class="date">2024.07<br/>— PRESENT</div>
+            <div class="body">
+              <div><span class="pill acc">VP</span><span class="ttl">Vice President · CSAK</span></div>
+              <div class="org">Cambodian Student Association in Korea</div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="date">2023.07<br/>— 2024.07</div>
+            <div class="body">
+              <div><span class="pill">SEC</span><span class="ttl">Secretary · CSAK</span></div>
+              <div class="org">Cambodian Student Association in Korea</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- AWARDS -->
+      <section class="sec stream" id="sec-awards">
+        <div class="sec-head">
+          <span class="caret">&gt;</span><span class="label">HONORS &amp; AWARDS</span><span class="rule"></span><span class="tag">05</span>
+        </div>
+        <div class="sec-body">
+          <p class="mono-small" style="margin:0 0 8px;">$ awards.dump | sort -r</p>
+
+          <div class="row">
+            <div class="date">2023.11</div>
+            <div class="body">
+              <div><span class="pill acc">GRAND PRIZE</span><span class="ttl">2nd Asia Youth Future Forum</span></div>
+              <div class="meta">climate / 4IR proposals</div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="date">2023.09</div>
+            <div class="body">
+              <div><span class="pill">SEMI-FINAL</span><span class="ttl">Climate Science Olympiad</span></div>
+              <div class="meta">also semi-finalist in 2021</div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="date">2022.01</div>
+            <div class="body">
+              <div><span class="pill">SCHOLARSHIP</span><span class="ttl">GKS-U 2022</span></div>
+              <div class="meta">National Institute for International Education, Republic of Korea</div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="date">2021.09</div>
+            <div class="body">
+              <div><span class="pill">MERIT</span><span class="ttl">Mathematics Outstanding Students Cambodia</span></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="date">2021.05</div>
+            <div class="body">
+              <div><span class="ttl">5th Global Youth Environmental Essay Competition</span></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="date">2021.04</div>
+            <div class="body">
+              <div><span class="pill">Q-FINAL</span><span class="ttl">Cambodia Public Speaking &amp; Debate Association</span></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="date">2021.03</div>
+            <div class="body">
+              <div><span class="ttl">3rd · Model ASEAN Meeting at AUPP</span></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="date">2019.05</div>
+            <div class="body">
+              <div><span class="ttl">World Scholar's Cup — Global Round Qualifier</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section class="sec" id="sec-contact" style="position:relative;">
+        <span class="stamp" aria-hidden="true">OPEN&nbsp;TO&nbsp;WORK</span>
+        <div class="sec-head">
+          <span class="caret">&gt;</span><span class="label">CONTACT</span><span class="rule"></span><span class="tag">06</span>
+        </div>
+        <div class="sec-body">
+          <p class="mono-small" style="margin:0 0 10px;">$ ./contact.sh</p>
+          <pre style="white-space:pre-wrap;margin:0 0 14px;font-size:13px;line-height:1.7;">
+linkedin&nbsp;&nbsp;<span class="arrow">→</span>&nbsp;<a href="https://www.linkedin.com/in/kimtong-peng" target="_blank" rel="noopener" style="color:var(--ink);border-bottom:1px solid var(--ink);text-decoration:none;">linkedin.com/in/kimtong-peng</a>
+based&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="arrow">→</span>&nbsp;Seoul, South Korea (KST, UTC+9)
+roots&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="arrow">→</span>&nbsp;Phnom Penh, Cambodia
+working&nbsp;&nbsp;&nbsp;<span class="arrow">→</span>&nbsp;AI R&amp;D · NeWwave · remote
+open to&nbsp;&nbsp;&nbsp;<span class="arrow">→</span>&nbsp;collaboration · talks · research</pre>
+
+          <pre class="ascii" aria-hidden="true">
++———————————————————————————————————————————+
+|  END OF FILE.  press any key to continue. |
++———————————————————————————————————————————+</pre>
+        </div>
+      </section>
+
+      <footer>
+        <div>
+          <div>// kimtong peng · profile.txt · compiled 2026</div>
+          <div>// hand-set in JetBrains Mono · printed on bone-white</div>
+          <div>// no trackers · no analytics · static HTML</div>
+        </div>
+        <pre class="signoff" aria-hidden="true">
+   ╱╲___╱╲
+  (  • . •)   eof.
+   ╲ —— ╱
+    """"    </pre>
+      </footer>
+
+    </div><!-- /.main -->
+  </main>
+
+<script>
+(function(){
+  'use strict';
+
+  /* ---------- LIVE CLOCK (Seoul) ---------- */
+  function tickClock(){
+    var el = document.getElementById('clock');
+    if(!el) return;
+    var now = new Date();
+    // Convert to KST regardless of viewer locale.
+    var fmt = new Intl.DateTimeFormat('en-GB',{
+      timeZone:'Asia/Seoul',
+      hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false
+    });
+    el.textContent = fmt.format(now) + '  KST';
+  }
+  tickClock();
+  setInterval(tickClock, 1000);
+
+  /* ---------- LINE NUMBER GUTTER ---------- */
+  function paintGutter(){
+    var g = document.getElementById('gutter');
+    var frame = document.getElementById('frame');
+    if(!g || !frame) return;
+    var h = frame.getBoundingClientRect().height;
+    var lines = Math.ceil(h / 20) + 4;
+    var out = '';
+    for(var i=1;i<=lines;i++){
+      var n = String(i).padStart(3,'0');
+      out += '<span>'+n+'</span>';
+    }
+    g.innerHTML = out;
+  }
+  // paint after fonts/images so height is correct
+  window.addEventListener('load', paintGutter);
+  window.addEventListener('resize', (function(){
+    var t; return function(){ clearTimeout(t); t=setTimeout(paintGutter,120); };
+  })());
+  // also re-paint after a tick (for fonts)
+  setTimeout(paintGutter, 400);
+  setTimeout(paintGutter, 1200);
+
+  /* ---------- HERO TYPEWRITER ---------- */
+  var lines = [
+    { el: document.getElementById('t1'), text: 'KIMTONG ' },
+    { el: document.getElementById('t2'), text: 'PENG' },
+    { el: document.getElementById('t3'), text: '— BUILDS A.I.' }
+  ];
+  // accent treatment for the last fragment: wrap "A.I." in accent block
+  var caret = document.getElementById('caret');
+
+  function typeAll(){
+    var totalDelay = 0;
+    lines.forEach(function(line, li){
+      var text = line.text;
+      for (var i = 0; i < text.length; i++){
+        (function(ch, idx, lineIdx){
+          setTimeout(function(){
+            // last line: wrap "A.I." chars in accent
+            if (lineIdx === 2){
+              var current = line.el.innerHTML;
+              // detect we are entering the "A.I." substring at idx 2..5
+              if (idx === 2){
+                line.el.innerHTML = current + '<span class="accent-block">';
+              }
+              if (idx >= 2 && idx <= 5){
+                line.el.innerHTML += ch;
+              } else {
+                line.el.innerHTML += ch;
+              }
+              if (idx === 5){
+                line.el.innerHTML += '</span>';
+              }
+            } else {
+              line.el.textContent += ch;
+            }
+          }, totalDelay + idx * 38);
+        })(text.charAt(i), i, li);
+      }
+      totalDelay += text.length * 38 + 180;
+    });
+  }
+  // wait a beat so first paint shows the prompt cleanly
+  setTimeout(typeAll, 320);
+
+  /* ---------- SKILL BARS ---------- */
+  var skillObs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        e.target.querySelectorAll('.bar i').forEach(function(bar, i){
+          var w = bar.getAttribute('data-w') || '50';
+          setTimeout(function(){ bar.style.width = w + '%'; }, i*90);
+        });
+        skillObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.25 });
+  var sk = document.getElementById('skills');
+  if (sk) skillObs.observe(sk);
+
+  /* ---------- SECTION HEAD UNDERLINE + STREAMED ROWS ---------- */
+  var secObs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        e.target.classList.add('in');
+        // stream rows if this is a streaming section
+        if (e.target.classList.contains('stream')){
+          var rows = e.target.querySelectorAll('.row');
+          rows.forEach(function(r, i){
+            setTimeout(function(){ r.classList.add('printed'); }, 90 + i * 110);
+          });
+        }
+        secObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.sec').forEach(function(s){ secObs.observe(s); });
+
+  /* ---------- KONAMI-LIGHT: press "c" to log a capybara ---------- */
+  window.addEventListener('keydown', function(ev){
+    if (ev.key && ev.key.toLowerCase() === 'c'){
+      try{ console.log('%c  capybara online.  ', 'background:#FFD400;color:#0A0A0A;padding:4px 8px;font-family:monospace;'); }catch(e){}
+    }
+  });
+
+})();
+</script>
+</body>
+</html>
