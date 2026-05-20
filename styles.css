@@ -900,8 +900,9 @@ body::before {
   border-radius: 999px;
   background: rgba(245, 166, 35, .08);
   border: 1px solid rgba(245, 166, 35, .18);
+  white-space: nowrap;
 }
-.project-title {
+.tile h3.project-title {
   font-family: "Instrument Serif", "Times New Roman", serif;
   font-style: italic;
   font-weight: 400;
@@ -913,31 +914,109 @@ body::before {
 }
 .project p {
   font-size: 13px;
-  line-height: 1.5;
+  line-height: 1.55;
   color: var(--ink-dim);
 }
-.project-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
+.project-tag {
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--line-2);
+}
+
+/* ===== flagship project hero ===== */
+.project-hero {
+  background:
+    radial-gradient(900px 500px at 110% -20%, rgba(245, 166, 35, .18), transparent 55%),
+    radial-gradient(700px 500px at -10% 110%, rgba(194, 65, 12, .10), transparent 55%),
+    linear-gradient(180deg, #18141A 0%, #0F0E15 100%);
+  padding: 36px 40px;
+  border-color: rgba(245, 166, 35, .14);
+  justify-content: flex-start;
+}
+.project-hero > div:first-child { flex: 1 }
+.tile h3.project-title-big {
+  font-family: "Instrument Serif", "Times New Roman", serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(56px, 8.5vw, 104px);
+  line-height: .95;
+  letter-spacing: -0.03em;
+  margin: 18px 0 18px;
+  color: var(--ink);
+}
+.tile h3.project-title-big .sep {
+  color: var(--accent);
+  font-style: normal;
+  margin: 0 -.04em;
+}
+.project-lead {
+  font-size: 16px !important;
+  line-height: 1.6 !important;
+  color: var(--ink-dim);
+  max-width: 76ch;
+  margin: 0 0 14px;
+}
+.project-lead b { color: var(--ink); font-weight: 600 }
+.project-thesis {
+  color: var(--muted) !important;
+  font-style: italic;
+  border-left: 2px solid rgba(245, 166, 35, .35);
+  padding-left: 14px;
+  margin-top: 18px !important;
+}
+.project-thesis em { color: var(--ink-dim); font-style: italic }
+.project-modules {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+.project-modules .module {
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: rgba(245, 166, 35, .10);
+  border: 1px solid rgba(245, 166, 35, .22);
+  color: var(--accent);
   font-family: "Geist Mono", ui-monospace, monospace;
   font-size: 11px;
   letter-spacing: .12em;
   text-transform: uppercase;
-  color: var(--accent);
-  text-decoration: none;
-  padding-bottom: 4px;
-  border-bottom: 1px dashed rgba(245, 166, 35, .35);
-  align-self: flex-start;
-  margin-top: 16px;
-  transition: color .25s, border-color .25s;
 }
-.project-link:hover {
-  color: var(--accent-2);
-  border-bottom-color: rgba(232, 155, 74, .8);
+.project-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  padding-top: 18px;
+  margin-top: 26px;
+  border-top: 1px dashed var(--line-2);
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: .06em;
 }
-.project-link .arrow { transition: transform .3s }
-.project-link:hover .arrow { transform: translate(2px, -2px) }
+.project-foot b { color: var(--ink); font-weight: 500 }
+.project-foot .status {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--green);
+  text-transform: uppercase;
+  letter-spacing: .14em;
+  font-size: 11px;
+}
+.project-foot .live-pulse {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 0 3px rgba(111, 207, 151, .22);
+  animation: pulse 1.8s ease-in-out infinite;
+}
 
 /* ===== contact tile ===== */
 .contact {
